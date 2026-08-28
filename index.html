@@ -1,1 +1,157 @@
-index.html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coffee Loyalty</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f7f3ee;
+      color: #2b2118;
+    }
+
+    .app {
+      max-width: 420px;
+      margin: 0 auto;
+      min-height: 100vh;
+      padding: 24px 18px 40px;
+      box-sizing: border-box;
+    }
+
+    .brand {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      opacity: 0.6;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 34px;
+    }
+
+    .subtitle {
+      margin: 0 0 28px;
+      color: #6d6259;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+      margin-bottom: 18px;
+    }
+
+    .progress-title {
+      font-size: 14px;
+      color: #7c7168;
+      margin-bottom: 8px;
+    }
+
+    .progress-number {
+      font-size: 38px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .stamps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .stamp {
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 2px solid #d8cec4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      background: #faf7f3;
+    }
+
+    .reward {
+      padding: 14px;
+      border-radius: 16px;
+      background: #f0e7dd;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .button {
+      width: 100%;
+      border: none;
+      border-radius: 16px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 700;
+      background: #2b2118;
+      color: white;
+      margin-top: 12px;
+    }
+
+    .small {
+      font-size: 13px;
+      color: #8a7d73;
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+    <div class="brand">Coffee Loyalty</div>
+
+    <h1>Tu café te premia ☕</h1>
+
+    <p class="subtitle">
+      Cada visita cuenta. Completa 10 y recibe una bebida gratis.
+    </p>
+
+    <section class="card">
+      <div class="progress-title">Tu progreso</div>
+
+      <div class="progress-number">0 / 10 visitas</div>
+
+      <div class="stamps">
+        <div class="stamp">☕</div>
+        <div class="stamp">☕</div>
+        <div class="stamp">☕</div>
+        <div class="stamp">☕</div>
+        <div class="stamp">☕</div>
+        <div class="stamp">☕</div>
+        <div class="stamp">☕</div>
+        <div class="stamp">☕</div>
+        <div class="stamp">☕</div>
+        <div class="stamp">🎁</div>
+      </div>
+
+      <div class="reward">
+        🎁 Al completar tu visita número 10 desbloqueas una bebida gratis.
+      </div>
+    </section>
+
+    <section class="card">
+      <strong>Tu cuenta</strong>
+
+      <p style="color:#6d6259;">
+        Inicia sesión para consultar tus visitas y recompensas.
+      </p>
+
+      <button class="button">Iniciar sesión</button>
+    </section>
+
+    <div class="small">
+      Primera versión del programa de lealtad
+    </div>
+  </main>
+</body>
+</html>

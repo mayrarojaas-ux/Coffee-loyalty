@@ -1,157 +1,489 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Coffee Loyalty</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mariano Estrada Barista | Lealtad</title>
 
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f7f3ee;
-      color: #2b2118;
-    }
-
-    .app {
-      max-width: 420px;
-      margin: 0 auto;
-      min-height: 100vh;
-      padding: 24px 18px 40px;
+    * {
       box-sizing: border-box;
     }
 
+    :root {
+      --black: #151311;
+      --coffee: #33251c;
+      --coffee-light: #7f6959;
+      --cream: #f6f1e9;
+      --cream-dark: #ebe0d3;
+      --white: #ffffff;
+      --line: #ded2c4;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--cream);
+      color: var(--black);
+    }
+
+    .app {
+      width: 100%;
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      padding-bottom: 100px;
+      background: var(--cream);
+    }
+
+    /* HERO */
+
+    .hero {
+      position: relative;
+      min-height: 250px;
+      padding: 28px 22px;
+      background:
+        linear-gradient(
+          180deg,
+          rgba(15,12,10,.15) 0%,
+          rgba(15,12,10,.80) 100%
+        ),
+        #6f5948;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: white;
+    }
+
     .brand {
-      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(255,255,255,.55);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 21px;
+      backdrop-filter: blur(8px);
+    }
+
+    .brand-name {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1.7px;
       text-transform: uppercase;
-      letter-spacing: 2px;
-      opacity: 0.6;
-      margin-bottom: 8px;
+      line-height: 1.3;
     }
 
-    h1 {
+    .brand-name small {
+      display: block;
+      font-size: 9px;
+      letter-spacing: 3px;
+      font-weight: 500;
+      opacity: .75;
+      margin-top: 3px;
+    }
+
+    .hero-copy h1 {
       margin: 0 0 8px;
-      font-size: 34px;
+      font-size: 32px;
+      line-height: 1.05;
     }
 
-    .subtitle {
-      margin: 0 0 28px;
-      color: #6d6259;
+    .hero-copy p {
+      margin: 0;
+      max-width: 310px;
+      font-size: 15px;
+      line-height: 1.4;
+      color: rgba(255,255,255,.82);
+    }
+
+    /* CONTENT */
+
+    .content {
+      padding: 0 18px;
+      margin-top: -22px;
+      position: relative;
+      z-index: 2;
     }
 
     .card {
-      background: #ffffff;
+      background: white;
       border-radius: 24px;
       padding: 22px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.06);
-      margin-bottom: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 12px 35px rgba(45,35,25,.09);
     }
 
-    .progress-title {
-      font-size: 14px;
-      color: #7c7168;
-      margin-bottom: 8px;
+    .eyebrow {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+      color: var(--coffee-light);
+      margin-bottom: 7px;
+    }
+
+    .progress-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 22px;
     }
 
     .progress-number {
-      font-size: 38px;
-      font-weight: 700;
-      margin-bottom: 16px;
+      font-size: 35px;
+      line-height: 1;
+      font-weight: 750;
     }
+
+    .progress-number span {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--coffee-light);
+    }
+
+    .remaining {
+      font-size: 12px;
+      color: var(--coffee-light);
+      text-align: right;
+    }
+
+    /* SELLOS */
 
     .stamps {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 10px;
-      margin-bottom: 18px;
     }
 
     .stamp {
       aspect-ratio: 1;
       border-radius: 50%;
-      border: 2px solid #d8cec4;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      background: #faf7f3;
+      border: 1.5px solid var(--line);
+      display: grid;
+      place-items: center;
+      background: #fcfaf7;
+      position: relative;
     }
 
-    .reward {
-      padding: 14px;
+    .stamp-mark {
+      width: 25px;
+      height: 29px;
+      opacity: .22;
+      position: relative;
+    }
+
+    /* pequeño símbolo tipo hoja/café */
+    .stamp-mark::before,
+    .stamp-mark::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%) rotate(45deg);
+      border-radius: 100% 0 100% 0;
+      border: 2px solid var(--coffee);
+      width: 10px;
+      height: 18px;
+    }
+
+    .stamp-mark::before {
+      left: 35%;
+    }
+
+    .stamp-mark::after {
+      left: 65%;
+      transform: translateX(-50%) rotate(-45deg);
+    }
+
+    .stamp.reward {
+      background: var(--black);
+      border-color: var(--black);
+    }
+
+    .stamp.reward span {
+      font-size: 20px;
+    }
+
+    /* REWARD */
+
+    .reward-box {
+      margin-top: 20px;
+      padding: 16px;
+      background: var(--cream);
       border-radius: 16px;
-      background: #f0e7dd;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .reward-icon {
+      width: 42px;
+      height: 42px;
+      min-width: 42px;
+      border-radius: 50%;
+      background: var(--black);
+      color: white;
+      display: grid;
+      place-items: center;
+    }
+
+    .reward-box strong {
       font-size: 14px;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .reward-box p {
+      margin: 0;
+      color: var(--coffee-light);
+      font-size: 12px;
       line-height: 1.4;
     }
 
-    .button {
-      width: 100%;
-      border: none;
-      border-radius: 16px;
-      padding: 16px;
-      font-size: 16px;
-      font-weight: 700;
-      background: #2b2118;
-      color: white;
-      margin-top: 12px;
+    /* NEXT REWARD */
+
+    .next-reward {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .small {
+    .next-reward h3 {
+      margin: 4px 0 5px;
+      font-size: 19px;
+    }
+
+    .next-reward p {
+      margin: 0;
       font-size: 13px;
-      color: #8a7d73;
+      color: var(--coffee-light);
+    }
+
+    .cup-badge {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      background: var(--cream-dark);
+      display: grid;
+      place-items: center;
+      font-size: 25px;
+    }
+
+    /* LOGIN */
+
+    .account-card h3 {
+      margin: 0 0 6px;
+      font-size: 19px;
+    }
+
+    .account-card p {
+      margin: 0 0 18px;
+      color: var(--coffee-light);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .button {
+      display: block;
+      width: 100%;
+      border: none;
       text-align: center;
-      margin-top: 20px;
+      text-decoration: none;
+      cursor: pointer;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: var(--black);
+      color: white;
+      font-size: 15px;
+      font-weight: 650;
+    }
+
+    /* NAV */
+
+    .nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 430px;
+      padding: 11px 12px 18px;
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(14px);
+      border-top: 1px solid rgba(0,0,0,.06);
+
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      z-index: 20;
+    }
+
+    .nav-item {
+      text-decoration: none;
+      color: #94877c;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+    }
+
+    .nav-item .icon {
+      font-size: 19px;
+    }
+
+    .nav-item.active {
+      color: var(--black);
+      font-weight: 650;
     }
   </style>
 </head>
 
 <body>
+
   <main class="app">
-    <div class="brand">Coffee Loyalty</div>
 
-    <h1>Tu café te premia ☕</h1>
+    <section class="hero">
 
-    <p class="subtitle">
-      Cada visita cuenta. Completa 10 y recibe una bebida gratis.
-    </p>
+      <div class="brand">
+        <div class="brand-icon">☕</div>
 
-    <section class="card">
-      <div class="progress-title">Tu progreso</div>
-
-      <div class="progress-number">0 / 10 visitas</div>
-
-      <div class="stamps">
-        <div class="stamp">☕</div>
-        <div class="stamp">☕</div>
-        <div class="stamp">☕</div>
-        <div class="stamp">☕</div>
-        <div class="stamp">☕</div>
-        <div class="stamp">☕</div>
-        <div class="stamp">☕</div>
-        <div class="stamp">☕</div>
-        <div class="stamp">☕</div>
-        <div class="stamp">🎁</div>
+        <div class="brand-name">
+          Mariano Estrada
+          <small>Barista · Café</small>
+        </div>
       </div>
 
-      <div class="reward">
-        🎁 Al completar tu visita número 10 desbloqueas una bebida gratis.
+      <div class="hero-copy">
+        <h1>Tu café<br>te recompensa.</h1>
+        <p>
+          Cada visita cuenta. Disfruta tu café favorito
+          y acércate a tu próxima recompensa.
+        </p>
       </div>
+
     </section>
 
-    <section class="card">
-      <strong>Tu cuenta</strong>
 
-      <p style="color:#6d6259;">
-        Inicia sesión para consultar tus visitas y recompensas.
-      </p>
+    <div class="content">
 
-      <button class="button">Iniciar sesión</button>
-    </section>
+      <section class="card">
 
-    <div class="small">
-      Primera versión del programa de lealtad
+        <div class="eyebrow">Tu progreso</div>
+
+        <div class="progress-header">
+
+          <div class="progress-number">
+            0 <span>/ 10 visitas</span>
+          </div>
+
+          <div class="remaining">
+            Te faltan<br>
+            <strong>10 visitas</strong>
+          </div>
+
+        </div>
+
+
+        <div class="stamps">
+
+          <div class="stamp"><div class="stamp-mark"></div></div>
+          <div class="stamp"><div class="stamp-mark"></div></div>
+          <div class="stamp"><div class="stamp-mark"></div></div>
+          <div class="stamp"><div class="stamp-mark"></div></div>
+          <div class="stamp"><div class="stamp-mark"></div></div>
+
+          <div class="stamp"><div class="stamp-mark"></div></div>
+          <div class="stamp"><div class="stamp-mark"></div></div>
+          <div class="stamp"><div class="stamp-mark"></div></div>
+          <div class="stamp"><div class="stamp-mark"></div></div>
+
+          <div class="stamp reward">
+            <span>★</span>
+          </div>
+
+        </div>
+
+
+        <div class="reward-box">
+
+          <div class="reward-icon">☕</div>
+
+          <div>
+            <strong>Tu visita 10 tiene premio</strong>
+            <p>
+              Completa 10 visitas con compra y recibe
+              una bebida gratis.
+            </p>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section class="card next-reward">
+
+        <div>
+          <div class="eyebrow">Próxima recompensa</div>
+          <h3>Bebida gratis</h3>
+          <p>Disponible al completar 10 visitas.</p>
+        </div>
+
+        <div class="cup-badge">☕</div>
+
+      </section>
+
+
+      <section class="card account-card">
+
+        <div class="eyebrow">Mi cuenta</div>
+
+        <h3>Guarda cada visita</h3>
+
+        <p>
+          Inicia sesión para consultar tu progreso,
+          tus recompensas y tu historial.
+        </p>
+
+        <a href="#" class="button">
+          Iniciar sesión
+        </a>
+
+      </section>
+
     </div>
+
+
+    <nav class="nav">
+
+      <a href="#" class="nav-item active">
+        <span class="icon">⌂</span>
+        Inicio
+      </a>
+
+      <a href="#" class="nav-item">
+        <span class="icon">▣</span>
+        Mi QR
+      </a>
+
+      <a href="#" class="nav-item">
+        <span class="icon">★</span>
+        Premios
+      </a>
+
+      <a href="#" class="nav-item">
+        <span class="icon">○</span>
+        Perfil
+      </a>
+
+    </nav>
+
   </main>
+
 </body>
 </html>

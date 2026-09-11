@@ -717,24 +717,23 @@
 
       <div class="progress-header">
 
-        <div class="progress-number">
+<div class="progress-number">
 
-          0
+  <span id="visitCount">0</span>
 
-          <span>
-            / 10 visitas
-          </span>
+  <span>
+    / <span id="visitGoal">10</span> visitas
+  </span>
 
-        </div>
-
+</div>
 
         <div class="remaining">
 
           Te faltan<br>
 
-          <strong>
-            10 visitas
-          </strong>
+<strong id="remainingVisits">
+  10 visitas
+</strong>
 
         </div>
 
@@ -1074,7 +1073,97 @@
   console.log(
     "Supabase conectado ☕"
   );
+/* CARGAR PROGRESO REAL DEL CLIENTE */
 
+async function loadCustomerProgress(user) {
+
+  if (!user) return;
+
+  console.log("Cargando visitas de:", user.id);
+
+
+  /* Obtener configuración del programa */
+
+  const {
+    data: settings,
+    error: settingsError
+  } = await supabaseClient
+    .from("loyalty_settings")
+    .select("visits_required")
+    .eq("id", 1)
+    .single();
+
+
+  if (settingsError) {
+    console.error(
+      "Error cargando configuración:",
+      settingsError
+    );
+    return;
+  }
+
+
+  const visitGoal =
+    settings.visits_required || 10;
+
+
+  /* Contar visitas del cliente */
+
+  const {
+    count,
+    error: visitsError
+  } = await supabaseClient
+    .from("visits")
+    .select("*", {
+      count: "exact",
+      head: true
+    })
+    .eq("customer_id", user.id);
+
+
+  if (visitsError) {
+    console.error(
+      "Error cargando visitas:",
+      visitsError
+    );
+    return;
+  }
+
+
+  const visits =
+    count || 0;
+
+  const remaining =
+    Math.max(
+      visitGoal - visits,
+      0
+    );
+
+
+  document
+    .getElementById("visitCount")
+    .textContent = visits;
+
+
+  document
+    .getElementById("visitGoal")
+    .textContent = visitGoal;
+
+
+  document
+    .getElementById("remainingVisits")
+    .textContent =
+      remaining === 1
+        ? "1 visita"
+        : remaining + " visitas";
+
+
+  console.log(
+    "Visitas reales:",
+    visits
+  );
+
+}
 
 
   /* ELEMENTOS LOGIN */
@@ -1258,6 +1347,7 @@
         "Usuario conectado:",
         data.user
       );
+      await loadCustomerProgress(data.user);
 
     }
   );

@@ -1355,6 +1355,31 @@ async function loadCustomerProgress(user) {
 
 </script>
 
+  /* RECUPERAR SESIÓN AL ABRIR LA APP */
+
+async function restoreSession() {
+
+  const {
+    data: { session }
+  } =
+  await supabaseClient.auth
+    .getSession();
+
+
+  if (session) {
+
+    loginButton.textContent =
+      "Mi cuenta";
+
+    await loadCustomerProgress(
+      session.user
+    );
+
+  }
+
+}
+
+restoreSession();
 
 </body>
 

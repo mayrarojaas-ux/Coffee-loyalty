@@ -303,7 +303,100 @@
       font-size: 15px;
       font-weight: 650;
     }
+/* LOGIN MODAL */
 
+.login-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 17, 14, .72);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+}
+
+.login-modal.show {
+  display: flex;
+}
+
+.login-box {
+  width: 100%;
+  max-width: 380px;
+  background: var(--cream);
+  border-radius: 26px;
+  padding: 28px 24px 24px;
+  position: relative;
+  box-shadow: 0 25px 70px rgba(0,0,0,.25);
+}
+
+.login-close {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--cream-dark);
+  color: var(--black);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.login-brand {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--coffee-light);
+  margin-bottom: 14px;
+}
+
+.login-box h2 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.login-box > p {
+  margin: 0 0 22px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--coffee-light);
+}
+
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.form-group input {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: white;
+  border-radius: 14px;
+  padding: 14px 15px;
+  font-size: 15px;
+  outline: none;
+}
+
+.form-group input:focus {
+  border-color: var(--coffee);
+}
+
+.login-message {
+  min-height: 20px;
+  margin: 12px 0 0;
+  text-align: center;
+  font-size: 12px;
+  color: #8b3d32;
+}
     /* NAV */
 
     .nav {
@@ -458,7 +551,56 @@
       </section>
 
     </div>
+<div class="login-modal" id="loginModal">
 
+  <div class="login-box">
+
+    <button class="login-close" id="closeLogin" type="button">×</button>
+
+    <div class="login-brand">Mariano Estrada · Barista</div>
+
+    <h2>Bienvenido de vuelta ☕</h2>
+
+    <p>
+      Inicia sesión para consultar tus visitas
+      y recompensas.
+    </p>
+
+    <form id="loginForm">
+
+      <div class="form-group">
+        <label for="loginEmail">Correo electrónico</label>
+        <input
+          type="email"
+          id="loginEmail"
+          autocomplete="email"
+          placeholder="tu@correo.com"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="loginPassword">Contraseña</label>
+        <input
+          type="password"
+          id="loginPassword"
+          autocomplete="current-password"
+          placeholder="••••••••"
+          required
+        >
+      </div>
+
+      <button class="button" id="submitLogin" type="submit">
+        Iniciar sesión
+      </button>
+
+      <div class="login-message" id="loginMessage"></div>
+
+    </form>
+
+  </div>
+
+</div>
 
     <nav class="nav">
 
@@ -525,6 +667,60 @@ loginButton.addEventListener("click", async function(event) {
   alert("☕ Sesión iniciada correctamente");
 
   loginButton.textContent = "Mi cuenta";
+
+const loginButton = document.getElementById("loginButton");
+const loginModal = document.getElementById("loginModal");
+const closeLogin = document.getElementById("closeLogin");
+const loginForm = document.getElementById("loginForm");
+const loginMessage = document.getElementById("loginMessage");
+const submitLogin = document.getElementById("submitLogin");
+
+loginButton.addEventListener("click", function(event) {
+  event.preventDefault();
+  loginModal.classList.add("show");
+});
+
+closeLogin.addEventListener("click", function() {
+  loginModal.classList.remove("show");
+  loginMessage.textContent = "";
+});
+
+loginModal.addEventListener("click", function(event) {
+  if (event.target === loginModal) {
+    loginModal.classList.remove("show");
+    loginMessage.textContent = "";
+  }
+});
+
+loginForm.addEventListener("submit", async function(event) {
+  event.preventDefault();
+
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+
+  loginMessage.textContent = "";
+  submitLogin.disabled = true;
+  submitLogin.textContent = "Ingresando...";
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    loginMessage.textContent = "Correo o contraseña incorrectos.";
+    submitLogin.disabled = false;
+    submitLogin.textContent = "Iniciar sesión";
+    return;
+  }
+
+  loginModal.classList.remove("show");
+
+  loginButton.textContent = "Mi cuenta";
+  submitLogin.disabled = false;
+  submitLogin.textContent = "Iniciar sesión";
+
+  loginForm.reset();
 
   console.log("Usuario conectado:", data.user);
 });

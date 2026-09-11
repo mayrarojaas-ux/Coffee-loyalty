@@ -498,6 +498,36 @@
   );
 
   console.log("Supabase conectado ☕");
+  const loginButton = document.getElementById("loginButton");
+
+loginButton.addEventListener("click", async function(event) {
+  event.preventDefault();
+
+  const email = prompt("Escribe tu correo:");
+  if (!email) return;
+
+  const password = prompt("Escribe tu contraseña:");
+  if (!password) return;
+
+  loginButton.textContent = "Ingresando...";
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
+
+  if (error) {
+    alert("No pudimos iniciar sesión: " + error.message);
+    loginButton.textContent = "Iniciar sesión";
+    return;
+  }
+
+  alert("☕ Sesión iniciada correctamente");
+
+  loginButton.textContent = "Mi cuenta";
+
+  console.log("Usuario conectado:", data.user);
+});
 </script>
 </body>
 </html>

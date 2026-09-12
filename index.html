@@ -354,6 +354,78 @@
       font-size: 25px;
     }
 
+
+    /* HISTORIAL */
+
+    .history-card {
+      display: none;
+    }
+
+    .history-card h3 {
+      margin: 0 0 5px;
+      font-size: 19px;
+    }
+
+    .history-intro {
+      margin: 0 0 16px;
+      color: var(--coffee-light);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .history-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 14px;
+      border-radius: 16px;
+      background: var(--cream);
+    }
+
+    .history-check {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      border-radius: 50%;
+      background: var(--coffee);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .history-info {
+      flex: 1;
+    }
+
+    .history-info strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+
+    .history-info span {
+      color: var(--coffee-light);
+      font-size: 12px;
+    }
+
+    .history-empty {
+      padding: 16px;
+      border-radius: 16px;
+      background: var(--cream);
+      color: var(--coffee-light);
+      font-size: 13px;
+      text-align: center;
+      line-height: 1.45;
+    }
+
     /* CUENTA */
 
     .account-card h3 {
@@ -1005,6 +1077,34 @@
     </section>
 
 
+
+    <!-- HISTORIAL -->
+
+    <section
+      class="card history-card"
+      id="historySection"
+    >
+
+      <div class="eyebrow">
+        Mis visitas
+      </div>
+
+      <h3>
+        Historial
+      </h3>
+
+      <p class="history-intro">
+        Aquí puedes consultar las visitas que ya sumaron a tu progreso.
+      </p>
+
+      <div
+        class="history-list"
+        id="historyList"
+      ></div>
+
+    </section>
+
+
     <!-- CUENTA -->
 
     <section class="card account-card">
@@ -1416,6 +1516,18 @@
     );
 
 
+  const historySection =
+    document.getElementById(
+      "historySection"
+    );
+
+
+  const historyList =
+    document.getElementById(
+      "historyList"
+    );
+
+
   /* =========================
      VARIABLES
   ========================== */
@@ -1526,6 +1638,11 @@
         user
       );
 
+
+      await loadVisitHistory(
+        user
+      );
+
     }
 
   }
@@ -1555,6 +1672,10 @@
 
     rewardsNav.style.display =
       "flex";
+
+
+    historySection.style.display =
+      "block";
 
 
     heroTitle.innerHTML =
@@ -1604,6 +1725,10 @@
 
 
     rewardsNav.style.display =
+      "none";
+
+
+    historySection.style.display =
       "none";
 
 
@@ -1954,6 +2079,149 @@
   }
 
 
+
+  /* =========================
+     HISTORIAL DE VISITAS
+  ========================== */
+
+  async function loadVisitHistory(user) {
+
+    if (!user) return;
+
+
+    historyList.innerHTML =
+      '<div class="history-empty">Cargando tus visitas... ☕</div>';
+
+
+    const {
+      data: visits,
+      error
+    } =
+    await supabaseClient
+      .from("visits")
+      .select("id, created_at")
+      .eq(
+        "customer_id",
+        user.id
+      )
+      .order(
+        "created_at",
+        {
+          ascending: false
+        }
+      )
+      .limit(10);
+
+
+    if (error) {
+
+      console.error(
+        "Error cargando historial:",
+        error
+      );
+
+
+      historyList.innerHTML =
+        '<div class="history-empty">No pudimos cargar tu historial por el momento.</div>';
+
+      return;
+
+    }
+
+
+    if (
+      !visits ||
+      visits.length === 0
+    ) {
+
+      historyList.innerHTML =
+        '<div class="history-empty">Aún no tienes visitas registradas.<br>Tu próximo café puede ser la primera ☕</div>';
+
+      return;
+
+    }
+
+
+    historyList.innerHTML =
+      "";
+
+
+    visits.forEach(
+      function(visit) {
+
+        const date =
+          new Date(
+            visit.created_at
+          );
+
+
+        const formattedDate =
+          new Intl.DateTimeFormat(
+            "es-MX",
+            {
+              timeZone:
+                "America/Mexico_City",
+
+              day:
+                "numeric",
+
+              month:
+                "short",
+
+              year:
+                "numeric"
+            }
+          ).format(date);
+
+
+        const formattedTime =
+          new Intl.DateTimeFormat(
+            "es-MX",
+            {
+              timeZone:
+                "America/Mexico_City",
+
+              hour:
+                "numeric",
+
+              minute:
+                "2-digit"
+            }
+          ).format(date);
+
+
+        const item =
+          document.createElement(
+            "div"
+          );
+
+
+        item.className =
+          "history-item";
+
+
+        item.innerHTML =
+          '<div class="history-check">✓</div>' +
+          '<div class="history-info">' +
+            '<strong>Visita registrada</strong>' +
+            '<span>' +
+              formattedDate +
+              ' · ' +
+              formattedTime +
+            '</span>' +
+          '</div>';
+
+
+        historyList.appendChild(
+          item
+        );
+
+      }
+    );
+
+  }
+
+
   /* =========================
      LOGIN
   ========================== */
@@ -2157,6 +2425,14 @@
 
       qrSection.style.display =
         "none";
+
+
+      historySection.style.display =
+        "none";
+
+
+      historyList.innerHTML =
+        "";
 
 
       todayStatus.style.display =

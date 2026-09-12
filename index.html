@@ -1307,12 +1307,13 @@
     <a
       href="#"
       class="nav-item"
+      id="historyNav"
     >
       <span class="icon">
-        ○
+        ◷
       </span>
 
-      Perfil
+      Historial
     </a>
 
   </nav>
@@ -1516,6 +1517,12 @@
     );
 
 
+  const historyNav =
+    document.getElementById(
+      "historyNav"
+    );
+
+
   const historySection =
     document.getElementById(
       "historySection"
@@ -1674,6 +1681,10 @@
       "flex";
 
 
+    historyNav.style.display =
+      "flex";
+
+
     historySection.style.display =
       "block";
 
@@ -1725,6 +1736,10 @@
 
 
     rewardsNav.style.display =
+      "none";
+
+
+    historyNav.style.display =
       "none";
 
 
@@ -2455,6 +2470,10 @@
         "flex";
 
 
+      historyNav.style.display =
+        "flex";
+
+
       heroTitle.innerHTML =
         "Tu café<br>te recompensa.";
 
@@ -2571,6 +2590,66 @@
 
 
       qrSection.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+
+    }
+  );
+
+
+
+  /* =========================
+     BOTÓN HISTORIAL
+  ========================== */
+
+  historyNav.addEventListener(
+    "click",
+    async function(event) {
+
+      event.preventDefault();
+
+
+      const {
+        data: { session }
+      } =
+      await supabaseClient.auth
+        .getSession();
+
+
+      if (!session) {
+
+        loginModal.classList.add(
+          "show"
+        );
+
+        return;
+
+      }
+
+
+      const profile =
+        await getUserProfile(
+          session.user
+        );
+
+
+      if (
+        !profile ||
+        profile.role !== "customer"
+      ) {
+
+        return;
+
+      }
+
+
+      await loadVisitHistory(
+        session.user
+      );
+
+
+      historySection.scrollIntoView({
         behavior: "smooth",
         block: "center"
       });

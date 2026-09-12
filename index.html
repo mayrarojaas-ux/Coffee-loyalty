@@ -26,7 +26,11 @@
 
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
       background: var(--cream);
       color: var(--black);
     }
@@ -59,7 +63,10 @@
           rgba(15,12,10,.25) 38%,
           rgba(15,12,10,.88) 100%
         ),
-        url("hero.jpg.jpg") center center / cover no-repeat;
+        url("hero.jpg.jpg")
+        center center /
+        cover
+        no-repeat;
 
       display: flex;
       flex-direction: column;
@@ -129,7 +136,9 @@
       border-radius: 24px;
       padding: 22px;
       margin-bottom: 16px;
-      box-shadow: 0 12px 35px rgba(45,35,25,.09);
+      box-shadow:
+        0 12px 35px
+        rgba(45,35,25,.09);
     }
 
     .eyebrow {
@@ -171,14 +180,17 @@
 
     .stamps {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns:
+        repeat(5, 1fr);
       gap: 10px;
     }
 
     .stamp {
       aspect-ratio: 1;
       border-radius: 50%;
-      border: 1.5px solid var(--line);
+      border:
+        1.5px solid
+        var(--line);
       display: grid;
       place-items: center;
       background: #fcfaf7;
@@ -197,9 +209,14 @@
       content: "";
       position: absolute;
       left: 50%;
-      transform: translateX(-50%) rotate(45deg);
-      border-radius: 100% 0 100% 0;
-      border: 2px solid var(--coffee);
+      transform:
+        translateX(-50%)
+        rotate(45deg);
+      border-radius:
+        100% 0 100% 0;
+      border:
+        2px solid
+        var(--coffee);
       width: 10px;
       height: 18px;
     }
@@ -210,7 +227,9 @@
 
     .stamp-mark::after {
       left: 65%;
-      transform: translateX(-50%) rotate(-45deg);
+      transform:
+        translateX(-50%)
+        rotate(-45deg);
     }
 
     .stamp.completed {
@@ -270,6 +289,38 @@
       margin: 0;
       color: var(--coffee-light);
       font-size: 12px;
+      line-height: 1.4;
+    }
+
+    /* MENSAJE DE VISITA DE HOY */
+
+    .today-status {
+      display: none;
+      margin-top: 16px;
+      padding: 17px 16px;
+      border-radius: 18px;
+      background:
+        linear-gradient(
+          135deg,
+          #f4eee5,
+          #ebe0d3
+        );
+      border:
+        1px solid
+        rgba(127,105,89,.15);
+    }
+
+    .today-status strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 4px;
+      color: var(--coffee);
+    }
+
+    .today-status p {
+      margin: 0;
+      color: var(--coffee-light);
+      font-size: 13px;
       line-height: 1.4;
     }
 
@@ -434,6 +485,27 @@
       color: var(--coffee);
     }
 
+    .barista-rule {
+      margin: 0 0 18px;
+      padding: 14px 15px;
+      border-radius: 16px;
+      background: var(--cream);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      color: var(--coffee);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .barista-rule span {
+      font-size: 20px;
+    }
+
+    .barista-rule strong {
+      display: block;
+    }
+
     #reader {
       width: 100%;
       overflow: hidden;
@@ -484,12 +556,13 @@
       color: var(--danger);
     }
 
-    /* LOGIN MODAL */
+    /* LOGIN */
 
     .login-modal {
       position: fixed;
       inset: 0;
-      background: rgba(20,17,14,.72);
+      background:
+        rgba(20,17,14,.72);
       backdrop-filter: blur(8px);
       z-index: 100;
       display: none;
@@ -509,7 +582,9 @@
       border-radius: 26px;
       padding: 28px 24px 24px;
       position: relative;
-      box-shadow: 0 25px 70px rgba(0,0,0,.25);
+      box-shadow:
+        0 25px 70px
+        rgba(0,0,0,.25);
     }
 
     .login-close {
@@ -559,7 +634,9 @@
 
     .form-group input {
       width: 100%;
-      border: 1px solid var(--line);
+      border:
+        1px solid
+        var(--line);
       background: white;
       border-radius: 14px;
       padding: 14px 15px;
@@ -568,7 +645,8 @@
     }
 
     .form-group input:focus {
-      border-color: var(--coffee);
+      border-color:
+        var(--coffee);
     }
 
     .login-message {
@@ -585,15 +663,22 @@
       position: fixed;
       bottom: 0;
       left: 50%;
-      transform: translateX(-50%);
+      transform:
+        translateX(-50%);
       width: 100%;
       max-width: 430px;
-      padding: 11px 12px 18px;
-      background: rgba(255,255,255,.94);
-      backdrop-filter: blur(14px);
-      border-top: 1px solid rgba(0,0,0,.06);
+      padding:
+        11px 12px 18px;
+      background:
+        rgba(255,255,255,.94);
+      backdrop-filter:
+        blur(14px);
+      border-top:
+        1px solid
+        rgba(0,0,0,.06);
       display: grid;
-      grid-template-columns: repeat(4,1fr);
+      grid-template-columns:
+        repeat(4,1fr);
       z-index: 20;
     }
 
@@ -615,10 +700,6 @@
       color: var(--black);
       font-weight: 650;
     }
-
-    .hidden {
-      display: none !important;
-    }
   </style>
 </head>
 
@@ -631,15 +712,22 @@
   <section class="hero">
 
     <div class="brand">
-      <div class="brand-icon">☕</div>
+
+      <div class="brand-icon">
+        ☕
+      </div>
 
       <div class="brand-name">
         Mariano Estrada
-        <small>Barista · Café</small>
+        <small>
+          Barista · Café
+        </small>
       </div>
+
     </div>
 
     <div class="hero-copy">
+
       <h1 id="heroTitle">
         Tu café<br>
         te recompensa.
@@ -650,13 +738,16 @@
         Disfruta tu café favorito
         y acércate a tu próxima recompensa.
       </p>
+
     </div>
 
   </section>
 
+
   <!-- CONTENIDO -->
 
   <div class="content">
+
 
     <!-- BARISTA -->
 
@@ -670,6 +761,7 @@
       </div>
 
       <div class="barista-header">
+
         <div class="eyebrow">
           Modo Barista
         </div>
@@ -681,6 +773,23 @@
         <p>
           Escanea el QR del cliente para registrar su compra.
         </p>
+
+      </div>
+
+      <div class="barista-rule">
+
+        <span>
+          🗓️
+        </span>
+
+        <div>
+          <strong>
+            1 visita por cliente al día
+          </strong>
+
+          Cada cliente puede sumar una nueva visita al día siguiente.
+        </div>
+
       </div>
 
       <button
@@ -697,6 +806,7 @@
         class="scan-result"
         id="scanResult"
       >
+
         <strong>
           ✓ Código del cliente leído
         </strong>
@@ -721,6 +831,7 @@
         >
           Escanear otro cliente
         </button>
+
       </div>
 
       <div
@@ -729,6 +840,7 @@
       ></div>
 
     </section>
+
 
     <!-- PROGRESO -->
 
@@ -744,24 +856,35 @@
       <div class="progress-header">
 
         <div class="progress-number">
-          <span id="visitCount">0</span>
+
+          <span id="visitCount">
+            0
+          </span>
 
           <span>
             /
-            <span id="visitGoal">10</span>
+            <span id="visitGoal">
+              10
+            </span>
             visitas
           </span>
+
         </div>
 
         <div class="remaining">
+
           Te faltan<br>
 
           <strong id="remainingVisits">
             10 visitas
           </strong>
+
         </div>
 
       </div>
+
+
+      <!-- SELLOS -->
 
       <div class="stamps">
 
@@ -802,10 +925,15 @@
         </div>
 
         <div class="stamp reward">
-          <span>★</span>
+          <span>
+            ★
+          </span>
         </div>
 
       </div>
+
+
+      <!-- RECOMPENSA -->
 
       <div class="reward-box">
 
@@ -814,6 +942,7 @@
         </div>
 
         <div>
+
           <strong>
             Tu visita 10 tiene premio
           </strong>
@@ -822,11 +951,31 @@
             Completa 10 visitas con compra
             y recibe una bebida gratis.
           </p>
+
         </div>
 
       </div>
 
+
+      <!-- VISITA DE HOY -->
+
+      <div
+        class="today-status"
+        id="todayStatus"
+      >
+
+        <strong>
+          ✨ ¡Tu visita de hoy ya cuenta!
+        </strong>
+
+        <p>
+          Nos vemos mañana para seguir sumando.
+        </p>
+
+      </div>
+
     </section>
+
 
     <!-- PRÓXIMA RECOMPENSA -->
 
@@ -836,6 +985,7 @@
     >
 
       <div>
+
         <div class="eyebrow">
           Próxima recompensa
         </div>
@@ -847,6 +997,7 @@
         <p id="rewardDescription">
           Disponible al completar 10 visitas.
         </p>
+
       </div>
 
       <div class="cup-badge">
@@ -854,6 +1005,7 @@
       </div>
 
     </section>
+
 
     <!-- CUENTA -->
 
@@ -890,6 +1042,7 @@
       </button>
 
     </section>
+
 
     <!-- MI QR -->
 
@@ -929,6 +1082,7 @@
 
   </div>
 
+
   <!-- LOGIN -->
 
   <div
@@ -962,6 +1116,7 @@
       <form id="loginForm">
 
         <div class="form-group">
+
           <label for="loginEmail">
             Correo electrónico
           </label>
@@ -973,9 +1128,11 @@
             placeholder="tu@correo.com"
             required
           >
+
         </div>
 
         <div class="form-group">
+
           <label for="loginPassword">
             Contraseña
           </label>
@@ -987,6 +1144,7 @@
             placeholder="••••••••"
             required
           >
+
         </div>
 
         <button
@@ -1008,18 +1166,19 @@
 
   </div>
 
+
   <!-- NAV -->
 
-  <nav
-    class="nav"
-    id="mainNav"
-  >
+  <nav class="nav">
 
     <a
       href="#"
       class="nav-item active"
     >
-      <span class="icon">⌂</span>
+      <span class="icon">
+        ⌂
+      </span>
+
       Inicio
     </a>
 
@@ -1028,8 +1187,11 @@
       class="nav-item"
       id="qrButton"
     >
-      <span class="icon">▣</span>
-      <span id="qrNavText">Mi QR</span>
+      <span class="icon">
+        ▣
+      </span>
+
+      Mi QR
     </a>
 
     <a
@@ -1037,7 +1199,10 @@
       class="nav-item"
       id="rewardsNav"
     >
-      <span class="icon">★</span>
+      <span class="icon">
+        ★
+      </span>
+
       Premios
     </a>
 
@@ -1045,7 +1210,10 @@
       href="#"
       class="nav-item"
     >
-      <span class="icon">○</span>
+      <span class="icon">
+        ○
+      </span>
+
       Perfil
     </a>
 
@@ -1053,23 +1221,27 @@
 
 </main>
 
-<!-- QR DEL CLIENTE -->
+
+<!-- GENERADOR QR -->
 
 <script
   src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"
 ></script>
 
-<!-- ESCÁNER QR BARISTA -->
+
+<!-- ESCÁNER QR -->
 
 <script
   src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"
 ></script>
+
 
 <!-- SUPABASE -->
 
 <script
   src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
 ></script>
+
 
 <script>
 
@@ -1080,8 +1252,10 @@
   const SUPABASE_URL =
     "https://ogpjaitzainyjfqqgits.supabase.co";
 
+
   const SUPABASE_KEY =
     "sb_publishable_5x1HtblxfP-TJOmV9OTXog_rR1AoHRg";
+
 
   const supabaseClient =
     supabase.createClient(
@@ -1095,89 +1269,173 @@
   ========================== */
 
   const loginButton =
-    document.getElementById("loginButton");
+    document.getElementById(
+      "loginButton"
+    );
+
 
   const logoutButton =
-    document.getElementById("logoutButton");
+    document.getElementById(
+      "logoutButton"
+    );
+
 
   const loginModal =
-    document.getElementById("loginModal");
+    document.getElementById(
+      "loginModal"
+    );
+
 
   const closeLogin =
-    document.getElementById("closeLogin");
+    document.getElementById(
+      "closeLogin"
+    );
+
 
   const loginForm =
-    document.getElementById("loginForm");
+    document.getElementById(
+      "loginForm"
+    );
+
 
   const loginMessage =
-    document.getElementById("loginMessage");
+    document.getElementById(
+      "loginMessage"
+    );
+
 
   const submitLogin =
-    document.getElementById("submitLogin");
+    document.getElementById(
+      "submitLogin"
+    );
+
 
   const qrButton =
-    document.getElementById("qrButton");
+    document.getElementById(
+      "qrButton"
+    );
+
 
   const qrSection =
-    document.getElementById("qrSection");
+    document.getElementById(
+      "qrSection"
+    );
+
 
   const qrCode =
-    document.getElementById("qrCode");
+    document.getElementById(
+      "qrCode"
+    );
+
 
   const progressSection =
-    document.getElementById("progressSection");
+    document.getElementById(
+      "progressSection"
+    );
+
 
   const nextRewardSection =
-    document.getElementById("nextRewardSection");
+    document.getElementById(
+      "nextRewardSection"
+    );
+
+
+  const todayStatus =
+    document.getElementById(
+      "todayStatus"
+    );
+
 
   const baristaSection =
-    document.getElementById("baristaSection");
+    document.getElementById(
+      "baristaSection"
+    );
+
 
   const startScannerButton =
-    document.getElementById("startScannerButton");
+    document.getElementById(
+      "startScannerButton"
+    );
+
 
   const registerVisitButton =
-    document.getElementById("registerVisitButton");
+    document.getElementById(
+      "registerVisitButton"
+    );
+
 
   const scanAgainButton =
-    document.getElementById("scanAgainButton");
+    document.getElementById(
+      "scanAgainButton"
+    );
+
 
   const scanResult =
-    document.getElementById("scanResult");
+    document.getElementById(
+      "scanResult"
+    );
+
 
   const scannedCustomerCode =
-    document.getElementById("scannedCustomerCode");
+    document.getElementById(
+      "scannedCustomerCode"
+    );
+
 
   const baristaMessage =
-    document.getElementById("baristaMessage");
+    document.getElementById(
+      "baristaMessage"
+    );
+
 
   const accountTitle =
-    document.getElementById("accountTitle");
+    document.getElementById(
+      "accountTitle"
+    );
+
 
   const accountText =
-    document.getElementById("accountText");
+    document.getElementById(
+      "accountText"
+    );
+
 
   const heroTitle =
-    document.getElementById("heroTitle");
+    document.getElementById(
+      "heroTitle"
+    );
+
 
   const heroText =
-    document.getElementById("heroText");
+    document.getElementById(
+      "heroText"
+    );
+
 
   const rewardsNav =
-    document.getElementById("rewardsNav");
+    document.getElementById(
+      "rewardsNav"
+    );
 
 
   /* =========================
      VARIABLES
   ========================== */
 
-  let currentProfile = null;
+  let currentProfile =
+    null;
 
-  let selectedCustomerId = null;
 
-  let html5QrCode = null;
+  let selectedCustomerId =
+    null;
 
-  let scannerRunning = false;
+
+  let html5QrCode =
+    null;
+
+
+  let scannerRunning =
+    false;
 
 
   /* =========================
@@ -1192,8 +1450,13 @@
     } =
     await supabaseClient
       .from("profiles")
-      .select("id, full_name, role")
-      .eq("id", user.id)
+      .select(
+        "id, full_name, role"
+      )
+      .eq(
+        "id",
+        user.id
+      )
       .single();
 
 
@@ -1205,17 +1468,21 @@
       );
 
       return null;
+
     }
 
 
     return data;
+
   }
 
 
   async function applyUserRole(user) {
 
     const profile =
-      await getUserProfile(user);
+      await getUserProfile(
+        user
+      );
 
 
     if (!profile) {
@@ -1225,14 +1492,17 @@
       );
 
       return;
+
     }
 
 
-    currentProfile = profile;
+    currentProfile =
+      profile;
 
 
     loginButton.textContent =
       "Mi cuenta";
+
 
     logoutButton.style.display =
       "block";
@@ -1243,13 +1513,20 @@
       profile.role === "admin"
     ) {
 
-      showBaristaMode(profile);
+      showBaristaMode(
+        profile
+      );
 
     } else {
 
-      showCustomerMode(profile);
+      showCustomerMode(
+        profile
+      );
 
-      await loadCustomerProgress(user);
+
+      await loadCustomerProgress(
+        user
+      );
 
     }
 
@@ -1265,14 +1542,18 @@
     baristaSection.style.display =
       "none";
 
+
     progressSection.style.display =
       "block";
+
 
     nextRewardSection.style.display =
       "flex";
 
+
     qrButton.style.display =
       "flex";
+
 
     rewardsNav.style.display =
       "flex";
@@ -1280,6 +1561,7 @@
 
     heroTitle.innerHTML =
       "Tu café<br>te recompensa.";
+
 
     heroText.innerHTML =
       "Cada visita cuenta. Disfruta tu café favorito y acércate a tu próxima recompensa.";
@@ -1289,6 +1571,7 @@
       profile.full_name
         ? "Hola, " + profile.full_name
         : "Tu cuenta está activa";
+
 
     accountText.textContent =
       "Consulta tu progreso y muestra tu QR cuando visites la cafetería.";
@@ -1305,17 +1588,26 @@
     progressSection.style.display =
       "none";
 
+
     nextRewardSection.style.display =
       "none";
+
+
+    todayStatus.style.display =
+      "none";
+
 
     qrSection.style.display =
       "none";
 
+
     qrButton.style.display =
       "none";
 
+
     rewardsNav.style.display =
       "none";
+
 
     baristaSection.style.display =
       "block";
@@ -1323,6 +1615,7 @@
 
     heroTitle.innerHTML =
       "Modo<br>Barista.";
+
 
     heroText.innerHTML =
       "Escanea el código del cliente y registra su visita.";
@@ -1333,14 +1626,47 @@
         ? "Hola, " + profile.full_name
         : "Sesión de barista";
 
+
     accountText.textContent =
       "Esta cuenta puede registrar visitas de clientes.";
 
+  }
 
-    baristaSection.scrollIntoView({
-      behavior: "smooth",
-      block: "center"
-    });
+
+  /* =========================
+     FECHA EN MÉXICO
+  ========================== */
+
+  function getMexicoDateString(dateValue) {
+
+    const date =
+      new Date(
+        dateValue
+      );
+
+
+    const formatter =
+      new Intl.DateTimeFormat(
+        "en-CA",
+        {
+          timeZone:
+            "America/Mexico_City",
+
+          year:
+            "numeric",
+
+          month:
+            "2-digit",
+
+          day:
+            "2-digit"
+        }
+      );
+
+
+    return formatter.format(
+      date
+    );
 
   }
 
@@ -1354,16 +1680,23 @@
     if (!user) return;
 
 
+    /* CONFIGURACIÓN */
+
     const {
       data: settings,
       error: settingsError
     } =
     await supabaseClient
-      .from("loyalty_settings")
+      .from(
+        "loyalty_settings"
+      )
       .select(
         "visits_required, reward_name"
       )
-      .eq("id", 1)
+      .eq(
+        "id",
+        1
+      )
       .single();
 
 
@@ -1375,11 +1708,13 @@
       );
 
       return;
+
     }
 
 
     const visitGoal =
-      settings.visits_required || 10;
+      settings.visits_required ||
+      10;
 
 
     const rewardName =
@@ -1387,12 +1722,16 @@
       "Bebida gratis";
 
 
+    /* CONTAR VISITAS */
+
     const {
       count,
       error: visitsError
     } =
     await supabaseClient
-      .from("visits")
+      .from(
+        "visits"
+      )
       .select(
         "*",
         {
@@ -1414,12 +1753,96 @@
       );
 
       return;
+
     }
 
 
     const visits =
       count || 0;
 
+
+    /* BUSCAR ÚLTIMA VISITA */
+
+    const {
+      data: lastVisits,
+      error: lastVisitError
+    } =
+    await supabaseClient
+      .from(
+        "visits"
+      )
+      .select(
+        "created_at"
+      )
+      .eq(
+        "customer_id",
+        user.id
+      )
+      .order(
+        "created_at",
+        {
+          ascending: false
+        }
+      )
+      .limit(
+        1
+      );
+
+
+    if (lastVisitError) {
+
+      console.error(
+        "Error revisando visita de hoy:",
+        lastVisitError
+      );
+
+    }
+
+
+    /* REVISAR SI YA TIENE VISITA HOY */
+
+    let hasVisitToday =
+      false;
+
+
+    if (
+      lastVisits &&
+      lastVisits.length > 0
+    ) {
+
+      const lastVisitDate =
+        getMexicoDateString(
+          lastVisits[0].created_at
+        );
+
+
+      const todayDate =
+        getMexicoDateString(
+          new Date()
+        );
+
+
+      hasVisitToday =
+        lastVisitDate ===
+        todayDate;
+
+    }
+
+
+    if (hasVisitToday) {
+
+      todayStatus.style.display =
+        "block";
+
+    } else {
+
+      todayStatus.style.display =
+        "none";
+
+    }
+
+
+    /* PROGRESO DEL CICLO */
 
     let progressVisits =
       visits % visitGoal;
@@ -1438,40 +1861,52 @@
 
     const remaining =
       Math.max(
-        visitGoal - progressVisits,
+        visitGoal -
+        progressVisits,
         0
       );
 
 
     document
-      .getElementById("visitCount")
+      .getElementById(
+        "visitCount"
+      )
       .textContent =
         progressVisits;
 
 
     document
-      .getElementById("visitGoal")
+      .getElementById(
+        "visitGoal"
+      )
       .textContent =
         visitGoal;
 
 
     document
-      .getElementById("remainingVisits")
+      .getElementById(
+        "remainingVisits"
+      )
       .textContent =
 
         remaining === 1
           ? "1 visita"
-          : remaining + " visitas";
+          : remaining +
+            " visitas";
 
 
     document
-      .getElementById("rewardName")
+      .getElementById(
+        "rewardName"
+      )
       .textContent =
         rewardName;
 
 
     document
-      .getElementById("rewardDescription")
+      .getElementById(
+        "rewardDescription"
+      )
       .textContent =
         "Disponible al completar " +
         visitGoal +
@@ -1494,9 +1929,14 @@
 
 
     stamps.forEach(
-      function(stamp, index) {
+      function(
+        stamp,
+        index
+      ) {
 
-        if (index < progress) {
+        if (
+          index < progress
+        ) {
 
           stamp.classList.add(
             "completed"
@@ -1541,6 +1981,7 @@
         );
 
         return;
+
       }
 
 
@@ -1560,6 +2001,7 @@
         "show"
       );
 
+
       loginMessage.textContent =
         "";
 
@@ -1572,12 +2014,14 @@
     function(event) {
 
       if (
-        event.target === loginModal
+        event.target ===
+        loginModal
       ) {
 
         loginModal.classList.remove(
           "show"
         );
+
 
         loginMessage.textContent =
           "";
@@ -1597,22 +2041,28 @@
 
       const email =
         document
-          .getElementById("loginEmail")
+          .getElementById(
+            "loginEmail"
+          )
           .value
           .trim();
 
 
       const password =
         document
-          .getElementById("loginPassword")
+          .getElementById(
+            "loginPassword"
+          )
           .value;
 
 
       loginMessage.textContent =
         "";
 
+
       submitLogin.disabled =
         true;
+
 
       submitLogin.textContent =
         "Ingresando...";
@@ -1634,13 +2084,17 @@
         loginMessage.textContent =
           "Correo o contraseña incorrectos.";
 
+
         submitLogin.disabled =
           false;
+
 
         submitLogin.textContent =
           "Iniciar sesión";
 
+
         return;
+
       }
 
 
@@ -1651,6 +2105,7 @@
 
       submitLogin.disabled =
         false;
+
 
       submitLogin.textContent =
         "Iniciar sesión";
@@ -1685,12 +2140,14 @@
       currentProfile =
         null;
 
+
       selectedCustomerId =
         null;
 
 
       loginButton.textContent =
         "Iniciar sesión";
+
 
       logoutButton.style.display =
         "none";
@@ -1699,17 +2156,26 @@
       baristaSection.style.display =
         "none";
 
+
       qrSection.style.display =
         "none";
+
+
+      todayStatus.style.display =
+        "none";
+
 
       progressSection.style.display =
         "block";
 
+
       nextRewardSection.style.display =
         "flex";
 
+
       qrButton.style.display =
         "flex";
+
 
       rewardsNav.style.display =
         "flex";
@@ -1718,6 +2184,7 @@
       heroTitle.innerHTML =
         "Tu café<br>te recompensa.";
 
+
       heroText.innerHTML =
         "Cada visita cuenta. Disfruta tu café favorito y acércate a tu próxima recompensa.";
 
@@ -1725,23 +2192,30 @@
       accountTitle.textContent =
         "Guarda cada visita";
 
+
       accountText.textContent =
         "Inicia sesión para consultar tu progreso, tus recompensas y tu historial.";
 
 
       document
-        .getElementById("visitCount")
+        .getElementById(
+          "visitCount"
+        )
         .textContent =
           "0";
 
 
       document
-        .getElementById("remainingVisits")
+        .getElementById(
+          "remainingVisits"
+        )
         .textContent =
           "10 visitas";
 
 
-      updateStamps(0);
+      updateStamps(
+        0
+      );
 
 
       window.scrollTo({
@@ -1778,6 +2252,7 @@
         );
 
         return;
+
       }
 
 
@@ -1789,10 +2264,12 @@
 
       if (
         !profile ||
-        profile.role !== "customer"
+        profile.role !==
+        "customer"
       ) {
 
         return;
+
       }
 
 
@@ -1856,6 +2333,7 @@
       baristaMessage.textContent =
         "";
 
+
       baristaMessage.className =
         "barista-message";
 
@@ -1871,6 +2349,7 @@
       if (scannerRunning) {
 
         return;
+
       }
 
 
@@ -1888,6 +2367,7 @@
 
         startScannerButton.disabled =
           true;
+
 
         startScannerButton.textContent =
           "Abriendo cámara...";
@@ -1909,7 +2389,9 @@
             }
           },
 
-          async function(decodedText) {
+          async function(
+            decodedText
+          ) {
 
             if (
               !isValidUuid(
@@ -1918,12 +2400,15 @@
             ) {
 
               baristaMessage.textContent =
-                "Este QR no es válido.";
+                "Este QR no pertenece al programa de lealtad.";
+
 
               baristaMessage.className =
                 "barista-message error";
 
+
               return;
+
             }
 
 
@@ -1940,7 +2425,8 @@
 
 
             baristaMessage.textContent =
-              "Cliente detectado.";
+              "Cliente detectado ☕";
+
 
             baristaMessage.className =
               "barista-message success";
@@ -1951,7 +2437,9 @@
           },
 
           function() {
-            /* ignoramos lecturas fallidas */
+
+            /* Se ignoran lecturas fallidas */
+
           }
 
         );
@@ -1977,12 +2465,14 @@
         startScannerButton.disabled =
           false;
 
+
         startScannerButton.textContent =
           "Escanear QR";
 
 
         baristaMessage.textContent =
           "No pudimos abrir la cámara. Revisa el permiso de cámara del navegador.";
+
 
         baristaMessage.className =
           "barista-message error";
@@ -2003,6 +2493,7 @@
       try {
 
         await html5QrCode.stop();
+
 
         html5QrCode.clear();
 
@@ -2026,6 +2517,7 @@
     startScannerButton.disabled =
       false;
 
+
     startScannerButton.textContent =
       "Escanear QR";
 
@@ -2040,14 +2532,18 @@
     "click",
     async function() {
 
-      if (!selectedCustomerId) {
+      if (
+        !selectedCustomerId
+      ) {
 
         return;
+
       }
 
 
       registerVisitButton.disabled =
         true;
+
 
       registerVisitButton.textContent =
         "Registrando...";
@@ -2078,9 +2574,30 @@
         );
 
 
-        baristaMessage.textContent =
-          error.message ||
-          "No se pudo registrar la visita.";
+        const errorText =
+          (
+            error.message ||
+            ""
+          ).toLowerCase();
+
+
+        if (
+          errorText.includes(
+            "ya registró su visita"
+          )
+        ) {
+
+          baristaMessage.innerHTML =
+            "☕ <strong>Este cliente ya registró su visita de hoy.</strong><br>Podrá seguir sumando mañana.";
+
+        } else {
+
+          baristaMessage.textContent =
+            error.message ||
+            "No se pudo registrar la visita.";
+
+        }
+
 
         baristaMessage.className =
           "barista-message error";
@@ -2089,15 +2606,19 @@
         registerVisitButton.disabled =
           false;
 
+
         registerVisitButton.textContent =
           "Registrar visita";
 
+
         return;
+
       }
 
 
-      baristaMessage.textContent =
-        "☕ Visita registrada correctamente.";
+      baristaMessage.innerHTML =
+        "☕ <strong>¡Visita registrada!</strong><br>Ya sumó a su progreso.";
+
 
       baristaMessage.className =
         "barista-message success";
@@ -2143,6 +2664,7 @@
       registerVisitButton.disabled =
         false;
 
+
       registerVisitButton.textContent =
         "Registrar visita";
 
@@ -2182,4 +2704,5 @@
 </script>
 
 </body>
+
 </html>

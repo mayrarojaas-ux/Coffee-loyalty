@@ -780,6 +780,19 @@
     .prize-item strong { display:block; font-size:14px; }
     .prize-item small { color:var(--coffee-light); font-size:12px; }
     .prize-item.used { opacity:.65; }
+
+    /* Navegación real por pestañas, solo en cuentas de clientes */
+    body.customer-tabs .content > section { display: none !important; }
+    body.customer-tabs[data-tab="inicio"] #progressSection,
+    body.customer-tabs[data-tab="inicio"] #nextRewardSection,
+    body.customer-tabs[data-tab="inicio"] #todayStatus,
+    body.customer-tabs[data-tab="inicio"] #historySection { display: block !important; }
+    body.customer-tabs[data-tab="inicio"] #nextRewardSection { display: flex !important; }
+    body.customer-tabs[data-tab="inicio"] #todayStatus[style*="display: none"] { display: none !important; }
+    body.customer-tabs[data-tab="qr"] #qrSection { display: block !important; }
+    body.customer-tabs[data-tab="premios"] #earnedRewardsSection { display: block !important; }
+    body.customer-tabs[data-tab="perfil"] .account-card { display: block !important; }
+    body.customer-tabs .nav-item { cursor: pointer; }
   </style>
 </head>
 
@@ -1294,6 +1307,7 @@
     <a
       href="#"
       class="nav-item active"
+      id="homeNav"
     >
       <span class="icon">
         ⌂
@@ -1329,6 +1343,7 @@
     <a
       href="#"
       class="nav-item"
+      id="profileNav"
     >
       <span class="icon">
         ○
@@ -1557,6 +1572,33 @@
   let currentProfile =
     null;
 
+  /* Pestañas: el contenido de cada sección se muestra por separado. */
+  const tabLinks = {
+    inicio: document.getElementById("homeNav"),
+    qr: document.getElementById("qrButton"),
+    premios: document.getElementById("rewardsNav"),
+    perfil: document.getElementById("profileNav")
+  };
+  function activateCustomerTab(tab) {
+    if (!document.body.classList.contains("customer-tabs")) return;
+    document.body.dataset.tab = tab;
+    Object.entries(tabLinks).forEach(([name, link]) => {
+      if (!link) return;
+      link.classList.toggle("active", name === tab);
+      if (name === tab) link.setAttribute("aria-current", "page");
+      else link.removeAttribute("aria-current");
+    });
+    window.scrollTo({top: 0, behavior: "smooth"});
+  }
+  Object.entries(tabLinks).forEach(([tab, link]) => {
+    if (!link) return;
+    link.addEventListener("click", function(e) {
+      e.preventDefault();
+      activateCustomerTab(tab);
+    });
+  });
+
+
 
   let selectedCustomerId =
     null;
@@ -1676,6 +1718,8 @@
   ========================== */
 
   function showCustomerMode(profile) {
+    document.body.classList.add("customer-tabs");
+    activateCustomerTab("inicio");
 
     baristaSection.style.display =
       "none";
@@ -1727,6 +1771,7 @@
   ========================== */
 
   function showBaristaMode(profile) {
+    document.body.classList.remove("customer-tabs");
 
     progressSection.style.display =
       "none";
@@ -2487,6 +2532,7 @@
 
       currentProfile =
         null;
+      document.body.classList.remove("customer-tabs");
 
 
       selectedCustomerId =
@@ -2652,10 +2698,7 @@
       );
 
 
-      qrSection.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-      });
+      activateCustomerTab("qr");
 
     }
   );

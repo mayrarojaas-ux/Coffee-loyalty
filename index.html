@@ -793,6 +793,31 @@
     body.customer-tabs[data-tab="premios"] #earnedRewardsSection { display: block !important; }
     body.customer-tabs[data-tab="perfil"] .account-card { display: block !important; }
     body.customer-tabs .nav-item { cursor: pointer; }
+
+    /* REDISEÑO PREMIUM · OCT 2026 */
+    #progressSection { padding: 23px 22px 24px; border-radius: 25px; box-shadow: 0 13px 34px rgba(53,36,22,.055); }
+    #progressSection .eyebrow { letter-spacing: 2px; font-size: 11px; }
+    #progressSection .progress-header { align-items:center; margin: 14px 0 27px; }
+    #progressSection .progress-number { font-size: 48px; letter-spacing: -2px; color:#332116; }
+    #progressSection .progress-number > span:last-child { font-size: 15px; letter-spacing:0; }
+    #progressSection .remaining { line-height:1.65; font-size:12px; }
+    #progressSection .remaining strong { color:#332116; font-size:14px; }
+    .loyalty-track-wrap { margin:0 0 3px; }
+    .loyalty-track { height: 19px; background:#eee4da; border-radius:999px; position:relative; overflow:hidden; box-shadow:inset 0 1px 3px rgba(74,49,28,.06); }
+    .loyalty-track-fill { height:100%; width:0%; background:linear-gradient(90deg,#69432d,#b37c56); border-radius:999px; transition:width .5s ease; }
+    .loyalty-track-ticks { position:absolute; inset:0; display:grid; grid-template-columns:repeat(10,1fr); pointer-events:none; }
+    .loyalty-track-ticks i { border-right:1px solid rgba(255,255,255,.5); }
+    .loyalty-track-ticks i:last-child { border:0; }
+    .loyalty-track-caption { display:flex; justify-content:space-between; gap:8px; color:#8a7364; font-size:11px; margin-top:12px; }
+    #nextRewardSection.premium-reward { display:flex; align-items:center; gap:13px; padding:20px 16px; border-radius:24px; background:linear-gradient(130deg,#fff 20%,#f9f2e9 100%); box-shadow:0 12px 32px rgba(53,36,22,.045); }
+    .premium-reward-art { width:67px; height:72px; flex:0 0 67px; display:grid; place-items:center; font-size:40px; background:radial-gradient(circle,#f3e0cd 0%,#f6ede3 70%); border-radius:21px; }
+    .premium-reward-copy { min-width:0; flex:1; }
+    #nextRewardSection .eyebrow { font-size:10px; letter-spacing:1.5px; }
+    #nextRewardSection h3 { font-size:20px; line-height:1.2; margin:5px 0 6px; color:#332116; }
+    #nextRewardSection p { font-size:12px; line-height:1.5; margin:0; color:#7f6959; }
+    .premium-reward-arrow { font-size:22px; color:#8c6a50; flex:0 0 26px; text-align:center; }
+    @media (max-width:365px) { #progressSection .progress-number {font-size:40px;} .premium-reward-art{width:53px;flex-basis:53px;font-size:32px;} #nextRewardSection h3{font-size:18px;} }
+
   </style>
 </head>
 
@@ -983,78 +1008,16 @@
       </div>
 
 
-      <!-- SELLOS -->
-
-      <div class="stamps">
-
-        <div class="stamp">
-          <div class="stamp-mark"></div>
+      <!-- BARRA DE PROGRESO PREMIUM -->
+      <div class="loyalty-track-wrap" aria-label="Progreso hacia tu siguiente recompensa">
+        <div class="loyalty-track">
+          <div class="loyalty-track-fill" id="loyaltyProgressFill"></div>
+          <div class="loyalty-track-ticks" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
         </div>
-
-        <div class="stamp">
-          <div class="stamp-mark"></div>
-        </div>
-
-        <div class="stamp">
-          <div class="stamp-mark"></div>
-        </div>
-
-        <div class="stamp">
-          <div class="stamp-mark"></div>
-        </div>
-
-        <div class="stamp">
-          <div class="stamp-mark"></div>
-        </div>
-
-        <div class="stamp">
-          <div class="stamp-mark"></div>
-        </div>
-
-        <div class="stamp">
-          <div class="stamp-mark"></div>
-        </div>
-
-        <div class="stamp">
-          <div class="stamp-mark"></div>
-        </div>
-
-        <div class="stamp">
-          <div class="stamp-mark"></div>
-        </div>
-
-        <div class="stamp reward">
-          <span>
-            ★
-          </span>
-        </div>
-
+        <div class="loyalty-track-caption"><span>☕ Cada visita cuenta</span><span id="loyaltyProgressPercent">0% completado</span></div>
       </div>
-
-
-      <!-- RECOMPENSA -->
-
-      <div class="reward-box">
-
-        <div class="reward-icon">
-          ☕
-        </div>
-
-        <div>
-
-          <strong>
-            Tu visita 10 tiene premio
-          </strong>
-
-          <p>
-            Completa 10 visitas con compra
-            y recibe una bebida gratis.
-          </p>
-
-        </div>
-
-      </div>
-
 
       <!-- VISITA DE HOY -->
 
@@ -1075,36 +1038,15 @@
 
 
     <!-- PRÓXIMA RECOMPENSA -->
-
-    <section
-      class="card next-reward"
-      id="nextRewardSection"
-    >
-
-      <div>
-
-        <div class="eyebrow">
-          Próxima recompensa
-        </div>
-
-        <h3 id="rewardName">
-          Bebida gratis
-        </h3>
-
-        <p id="rewardDescription">
-          Disponible al completar 10 visitas.
-        </p>
-
+    <section class="card next-reward premium-reward" id="nextRewardSection">
+      <div class="premium-reward-art" aria-hidden="true">☕</div>
+      <div class="premium-reward-copy">
+        <div class="eyebrow">Próxima recompensa</div>
+        <h3 id="rewardName">Bebida gratis</h3>
+        <p id="rewardDescription">Disponible al completar 10 visitas.</p>
       </div>
-
-      <div class="cup-badge">
-        ☕
-      </div>
-
+      <div class="premium-reward-arrow" aria-hidden="true">↗</div>
     </section>
-
-
-
 
     <!-- PREMIOS DEL CLIENTE -->
     <section class="card" id="earnedRewardsSection" style="display:none">
@@ -2105,40 +2047,13 @@
 
 
   function updateStamps(progress) {
-
-    const stamps =
-      document.querySelectorAll(
-        ".stamp:not(.reward)"
-      );
-
-
-    stamps.forEach(
-      function(
-        stamp,
-        index
-      ) {
-
-        if (
-          index < progress
-        ) {
-
-          stamp.classList.add(
-            "completed"
-          );
-
-        } else {
-
-          stamp.classList.remove(
-            "completed"
-          );
-
-        }
-
-      }
-    );
-
+    const goal = Math.max(1, Number(document.getElementById("visitGoal")?.textContent) || 10);
+    const percent = Math.max(0, Math.min(100, (Number(progress) / goal) * 100));
+    const fill = document.getElementById("loyaltyProgressFill");
+    const label = document.getElementById("loyaltyProgressPercent");
+    if (fill) fill.style.width = percent + "%";
+    if (label) label.textContent = Math.round(percent) + "% completado";
   }
-
 
 
   /* =========================

@@ -900,6 +900,35 @@
     .welcome-enter { width: 100%; padding: 17px 20px; border: 0; border-radius: 16px; background: #f2e4d4; color: #33251c; font-size: 15px; font-weight: 750; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
     .welcome-enter span:last-child { font-size: 23px; font-weight: 400; }
     body.welcome-active { overflow: hidden; }
+
+    /* EXPERIENCIAS · Página pública */
+    .nav { grid-template-columns: repeat(5,minmax(0,1fr)); padding-left:5px; padding-right:5px; }
+    .nav-item { min-width:0; font-size:9px; }
+    .nav-item .icon { font-size:18px; }
+    body.experiences-view .hero, body.experiences-view .content { display:none !important; }
+    body:not(.experiences-view) #experiencesPage { display:none !important; }
+    #experiencesPage { padding:0 17px 32px; }
+    .exp-hero { position:relative; min-height:360px; margin:0 -17px 22px; padding:32px 25px; display:flex; flex-direction:column; justify-content:space-between; color:white; background:linear-gradient(180deg,rgba(22,15,10,.35),rgba(22,15,10,.88)),url('hero.jpg.jpg') center/cover; }
+    .exp-kicker { font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:#eed2b1; font-weight:700; }
+    .exp-hero h1 { font-size:39px; line-height:1.06; letter-spacing:-1px; margin:10px 0 12px; }
+    .exp-hero p { font-size:14px; line-height:1.6; color:#f0e3d5; margin:0; }
+    .exp-heading { font-size:23px; color:#33251c; margin:0 0 8px; }
+    .exp-intro { font-size:13px; color:#7f6959; line-height:1.55; margin:0 0 20px; }
+    .exp-service { background:#fff; border-radius:20px; padding:18px; margin-bottom:12px; display:flex; gap:13px; box-shadow:0 8px 25px rgba(50,30,15,.05); }
+    .exp-service-icon { flex:0 0 45px; height:45px; display:grid; place-items:center; border-radius:15px; background:#f2e6d8; font-size:22px; }
+    .exp-service h3 { font-size:15px; margin:2px 0 5px; color:#33251c; }
+    .exp-service p { font-size:12px; line-height:1.5; color:#7f6959; margin:0; }
+    .exp-form-card { margin-top:26px; background:#fff; border-radius:24px; padding:22px 18px; box-shadow:0 12px 35px rgba(45,35,25,.07); }
+    .exp-form-card h2 { margin:6px 0 7px; font-size:24px; }
+    .exp-form-card p { color:#7f6959; font-size:13px; line-height:1.5; margin:0 0 21px; }
+    .exp-form-card label { display:block; margin:0 0 7px; font-size:12px; font-weight:700; }
+    .exp-form-card input,.exp-form-card select,.exp-form-card textarea { width:100%; min-width:0; border:1px solid #ded2c4; border-radius:13px; background:#fdfbf8; padding:13px; font:inherit; font-size:14px; color:#33251c; }
+    .exp-form-card textarea { resize:vertical; min-height:95px; }
+    .exp-field { margin-bottom:16px; }
+    .exp-two { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .exp-form-card .exp-submit { background:#33251c; border:0; color:white; width:100%; border-radius:15px; padding:16px; font-size:14px; font-weight:700; cursor:pointer; }
+    .exp-note { font-size:11px !important; margin:12px 0 0 !important; text-align:center; }
+    .exp-cta { border:0; background:#f2e4d4; color:#33251c; border-radius:14px; padding:14px 20px; font-size:14px; font-weight:700; cursor:pointer; width:100%; margin-top:20px; }
   </style>
 </head>
 
@@ -1254,6 +1283,41 @@
   </div>
 
 
+
+  <!-- EXPERIENCIAS: visible sin iniciar sesión -->
+  <section id="experiencesPage" aria-label="Experiencias con Mariano">
+    <div class="exp-hero">
+      <div class="exp-kicker">MARIANO ESTRADA · BARISTA</div>
+      <div>
+        <div class="exp-kicker">EXPERIENCIAS</div>
+        <h1>El café es solo<br>el comienzo.</h1>
+        <p>Momentos que se disfrutan. Experiencias que se recuerdan. Llevamos el café de especialidad a tu próximo gran momento.</p>
+        <button type="button" class="exp-cta" id="expGoForm">Diseña tu experiencia &nbsp; →</button>
+      </div>
+    </div>
+    <h2 class="exp-heading">Una experiencia a tu medida.</h2>
+    <p class="exp-intro">Desde celebraciones hasta talleres y activaciones, Mariano lleva su pasión por el café a donde la necesites.</p>
+    <div class="exp-service"><div class="exp-service-icon">☕</div><div><h3>Coffee Bar para eventos</h3><p>Una barra de café de especialidad para bodas, eventos corporativos, celebraciones y reuniones privadas.</p></div></div>
+    <div class="exp-service"><div class="exp-service-icon">✦</div><div><h3>Catas y degustaciones</h3><p>Descubre aromas, sabores y nuevas formas de disfrutar el café con una experiencia guiada.</p></div></div>
+    <div class="exp-service"><div class="exp-service-icon">♨</div><div><h3>Talleres y capacitaciones</h3><p>Aprende sobre métodos de extracción, técnicas de barismo y preparación de café.</p></div></div>
+    <div class="exp-service"><div class="exp-service-icon">✳</div><div><h3>Experiencias personalizadas</h3><p>Activaciones, colaboraciones y propuestas especiales. Cuéntanos tu idea y la hacemos posible.</p></div></div>
+    <div class="exp-form-card" id="expFormCard">
+      <div class="exp-kicker" style="color:#98724f">COTIZA CON MARIANO</div>
+      <h2>Hagamos algo especial. 🤎</h2>
+      <p>Cuéntanos qué tienes en mente y envía tu solicitud directamente al WhatsApp de Mariano.</p>
+      <form id="experienceForm">
+        <div class="exp-field"><label for="expName">Tu nombre *</label><input id="expName" name="nombre" placeholder="¿Cómo te llamas?" required maxlength="100"></div>
+        <div class="exp-field"><label for="expPhone">Tu WhatsApp o teléfono *</label><input id="expPhone" name="telefono" type="tel" placeholder="Tu número de contacto" required maxlength="25"></div>
+        <div class="exp-field"><label for="expService">¿Qué experiencia buscas? *</label><select id="expService" name="servicio" required><option value="" disabled selected>Selecciona una experiencia</option><option>Coffee Bar para eventos</option><option>Catas y degustaciones</option><option>Talleres y capacitaciones</option><option>Experiencia personalizada</option></select></div>
+        <div class="exp-two"><div class="exp-field"><label for="expDate">Fecha tentativa</label><input id="expDate" name="fecha" type="date"></div><div class="exp-field"><label for="expGuests">Invitados</label><input id="expGuests" name="invitados" type="number" min="1" max="100000" placeholder="Ej. 50"></div></div>
+        <div class="exp-field"><label for="expCity">Ciudad o ubicación *</label><input id="expCity" name="ciudad" placeholder="¿Dónde sería?" required maxlength="150"></div>
+        <div class="exp-field"><label for="expDetails">Cuéntanos tu idea</label><textarea id="expDetails" name="detalles" placeholder="Tipo de evento, horario, qué te gustaría incluir..." maxlength="1500"></textarea></div>
+        <button class="exp-submit" type="submit">Solicitar cotización por WhatsApp ↗</button>
+        <p class="exp-note">Se abrirá WhatsApp con tu solicitud lista para enviar. No se envía automáticamente.</p>
+      </form>
+    </div>
+  </section>
+
   <!-- LOGIN -->
 
   <div
@@ -1377,6 +1441,9 @@
 
       Premios
     </a>
+
+
+    <a href="#experiencias" class="nav-item" id="experiencesNav"><span class="icon">✧</span>Experiencias</a>
 
     <a
       href="#"
@@ -3112,18 +3179,70 @@
 
 
 
-  /* Bienvenida una vez por pestaña; el inicio de sesión se conserva. */
+
+  /* EXPERIENCIAS: página pública y cotización por WhatsApp. */
   (function () {
-    const screen = document.getElementById("welcomeScreen");
-    const enter = document.getElementById("welcomeEnter");
-    let visited = false;
-    try { visited = sessionStorage.getItem("marianoWelcomeSeen") === "1"; } catch (e) {}
-    if (visited) { screen.hidden = true; }
-    else { document.body.classList.add("welcome-active"); }
-    enter.addEventListener("click", function () {
+    const expNav = document.getElementById('experiencesNav');
+    const expForm = document.getElementById('experienceForm');
+    const nav = document.querySelector('.nav');
+    function showExperiences() {
+      document.body.classList.add('experiences-view');
+      nav.querySelectorAll('.nav-item').forEach(el => {
+        el.classList.toggle('active', el === expNav);
+        if (el === expNav) el.setAttribute('aria-current','page');
+        else el.removeAttribute('aria-current');
+      });
+      window.scrollTo(0,0);
+    }
+    function leaveExperiences() {
+      if (!document.body.classList.contains('experiences-view')) return;
+      document.body.classList.remove('experiences-view');
+      expNav.classList.remove('active');
+      expNav.removeAttribute('aria-current');
+      if (!document.body.classList.contains('customer-tabs')) {
+        document.getElementById('homeNav').classList.add('active');
+      }
+    }
+    expNav.addEventListener('click', e => { e.preventDefault(); showExperiences(); });
+    nav.querySelectorAll('.nav-item').forEach(el => {
+      if (el !== expNav) el.addEventListener('click', leaveExperiences);
+    });
+    document.getElementById('expGoForm').addEventListener('click', () => {
+      document.getElementById('expFormCard').scrollIntoView({behavior:'smooth',block:'start'});
+    });
+    expForm.addEventListener('submit', e => {
+      e.preventDefault();
+      if (!expForm.reportValidity()) return;
+      const v = id => document.getElementById(id).value.trim();
+      const date = v('expDate');
+      const readableDate = date ? date.split('-').reverse().join('/') : 'Por definir';
+      const msg = [
+        '¡Hola, Mariano! ☕ Me gustaría cotizar una experiencia.',
+        '', '👤 Nombre: ' + v('expName'),
+        '📱 Contacto: ' + v('expPhone'),
+        '✨ Experiencia: ' + v('expService'),
+        '📅 Fecha: ' + readableDate,
+        '👥 Invitados: ' + (v('expGuests') || 'Por definir'),
+        '📍 Ubicación: ' + v('expCity'),
+        '💬 Detalles: ' + (v('expDetails') || 'Por definir'),
+        '', '¡Quedo pendiente de tu respuesta!'
+      ].join('\n');
+      const url = 'https://wa.me/523335557135?text=' + encodeURIComponent(msg);
+      const link = document.createElement('a');
+      link.href = url; link.target = '_blank'; link.rel = 'noopener noreferrer';
+      document.body.appendChild(link); link.click(); link.remove();
+    });
+    if (location.hash === '#experiencias') showExperiences();
+  })();
+
+  /* Bienvenida en cada carga; no altera la sesión. */
+  (function () {
+    const screen = document.getElementById('welcomeScreen');
+    const enter = document.getElementById('welcomeEnter');
+    document.body.classList.add('welcome-active');
+    enter.addEventListener('click', function () {
       screen.hidden = true;
-      document.body.classList.remove("welcome-active");
-      try { sessionStorage.setItem("marianoWelcomeSeen", "1"); } catch (e) {}
+      document.body.classList.remove('welcome-active');
       window.scrollTo(0, 0);
     });
   })();

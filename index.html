@@ -2,6 +2,14 @@
 <html lang="es">
 
 <head>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/png" href="/icon-192.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#191919">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Mariano Café">
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -860,10 +868,56 @@
       #nextRewardSection h3 {font-size:17px;}
       #nextRewardSection .premium-reward-arrow {width:28px;height:28px;flex-basis:28px;}
     }
+
+    /* PANTALLA DE BIENVENIDA */
+    .welcome-screen {
+      position: fixed; inset: 0; z-index: 250;
+      display: flex; justify-content: center;
+      background: #211a16; color: #fff;
+    }
+    .welcome-screen[hidden] { display: none !important; }
+    .welcome-inner {
+      width: 100%; max-width: 520px; min-height: 100%;
+      position: relative; display: flex; flex-direction: column;
+      justify-content: space-between; padding: max(38px, env(safe-area-inset-top)) 28px max(40px, env(safe-area-inset-bottom));
+      isolation: isolate;
+    }
+    .welcome-inner::before {
+      content: ""; position: absolute; inset: 0; z-index: -2;
+      background-image: url("bienvenida-mariano.jpg"), url("hero.jpg.jpg");
+      background-position: center 28%; background-size: cover; background-repeat: no-repeat;
+    }
+    .welcome-inner::after {
+      content: ""; position: absolute; inset: 0; z-index: -1;
+      background: linear-gradient(180deg,rgba(17,13,10,.56) 0%,rgba(17,13,10,.02) 35%,rgba(17,13,10,.30) 53%,rgba(17,13,10,.94) 100%);
+    }
+    .welcome-brand { font-size: 12px; font-weight: 750; letter-spacing: 2.5px; text-transform: uppercase; line-height: 1.7; }
+    .welcome-brand small { display:block; font-size: 9px; font-weight: 450; letter-spacing: 3.3px; opacity: .85; }
+    .welcome-bottom { padding-bottom: 4px; }
+    .welcome-kicker { text-transform: uppercase; letter-spacing: 3px; font-size: 10px; color: #e5c7a8; margin-bottom: 12px; }
+    .welcome-bottom h1 { margin: 0 0 14px; font-size: clamp(35px,9vw,49px); line-height: 1.06; letter-spacing: -1.3px; }
+    .welcome-bottom p { margin: 0 0 28px; color: rgba(255,255,255,.86); line-height: 1.55; font-size: 14px; max-width: 315px; }
+    .welcome-enter { width: 100%; padding: 17px 20px; border: 0; border-radius: 16px; background: #f2e4d4; color: #33251c; font-size: 15px; font-weight: 750; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .welcome-enter span:last-child { font-size: 23px; font-weight: 400; }
+    body.welcome-active { overflow: hidden; }
   </style>
 </head>
 
 <body>
+
+  <!-- Bienvenida: solo presentación; no modifica la sesión ni los datos. -->
+  <section class="welcome-screen" id="welcomeScreen" aria-label="Bienvenida a Mariano Estrada Barista">
+    <div class="welcome-inner">
+      <div class="welcome-brand">Mariano Estrada<small>Barista · Café</small></div>
+      <div class="welcome-bottom">
+        <div class="welcome-kicker">Tu café, tus recompensas</div>
+        <h1>Cada café<br>cuenta.</h1>
+        <p>Disfruta lo que más te gusta. Nosotros premiamos cada visita.</p>
+        <button class="welcome-enter" type="button" id="welcomeEnter"><span>Comenzar</span><span aria-hidden="true">→</span></button>
+      </div>
+    </div>
+  </section>
+
 
 <main class="app">
 
@@ -3056,6 +3110,23 @@
 
   }
 
+
+
+  /* Bienvenida una vez por pestaña; el inicio de sesión se conserva. */
+  (function () {
+    const screen = document.getElementById("welcomeScreen");
+    const enter = document.getElementById("welcomeEnter");
+    let visited = false;
+    try { visited = sessionStorage.getItem("marianoWelcomeSeen") === "1"; } catch (e) {}
+    if (visited) { screen.hidden = true; }
+    else { document.body.classList.add("welcome-active"); }
+    enter.addEventListener("click", function () {
+      screen.hidden = true;
+      document.body.classList.remove("welcome-active");
+      try { sessionStorage.setItem("marianoWelcomeSeen", "1"); } catch (e) {}
+      window.scrollTo(0, 0);
+    });
+  })();
 
   restoreSession();
 

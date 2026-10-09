@@ -818,6 +818,48 @@
     .premium-reward-arrow { font-size:22px; color:#8c6a50; flex:0 0 26px; text-align:center; }
     @media (max-width:365px) { #progressSection .progress-number {font-size:40px;} .premium-reward-art{width:53px;flex-basis:53px;font-size:32px;} #nextRewardSection h3{font-size:18px;} }
 
+
+    /* Café helado premium, como la propuesta visual */
+    #nextRewardSection.premium-reward {
+      position:relative;
+      overflow:visible;
+      min-height:126px;
+      padding:21px 13px 21px 127px;
+      gap:8px;
+      border:2px solid rgba(255,255,255,.85);
+      background:linear-gradient(115deg,#f3e8da 0%,#fffaf4 72%,#f4e8dc 100%);
+    }
+    #nextRewardSection .premium-reward-art {
+      position:absolute;
+      left:0;
+      bottom:-2px;
+      width:126px;
+      height:152px;
+      background:none;
+      border-radius:0;
+      display:block;
+      overflow:visible;
+      filter:drop-shadow(0 9px 9px rgba(70,40,22,.22));
+      pointer-events:none;
+    }
+    #nextRewardSection .premium-reward-art img {
+      display:block;
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      object-position:bottom center;
+    }
+    #nextRewardSection .premium-reward-copy { position:relative;z-index:1; }
+    #nextRewardSection .premium-reward-arrow {
+      width:34px;height:34px;flex:0 0 34px;border-radius:50%;
+      background:#f1e4d7;display:grid;place-items:center;font-size:19px;
+    }
+    @media(max-width:365px) {
+      #nextRewardSection.premium-reward {padding-left:108px;}
+      #nextRewardSection .premium-reward-art {width:108px;height:140px;}
+      #nextRewardSection h3 {font-size:17px;}
+      #nextRewardSection .premium-reward-arrow {width:28px;height:28px;flex-basis:28px;}
+    }
   </style>
 </head>
 
@@ -1039,7 +1081,7 @@
 
     <!-- PRÓXIMA RECOMPENSA -->
     <section class="card next-reward premium-reward" id="nextRewardSection">
-      <div class="premium-reward-art" aria-hidden="true">☕</div>
+      <div class="premium-reward-art" aria-hidden="true"><img src="cafe-helado-premio-nuevo.png" alt="" loading="lazy"></div>
       <div class="premium-reward-copy">
         <div class="eyebrow">Próxima recompensa</div>
         <h3 id="rewardName">Bebida gratis</h3>

@@ -942,9 +942,9 @@
     <div class="welcome-inner">
       <div class="welcome-brand">Mariano Estrada<small>Barista · Café</small></div>
       <div class="welcome-bottom">
-        <div class="welcome-kicker">Tu café, tus recompensas</div>
-        <h1>Cada café<br>cuenta.</h1>
-        <p>Disfruta lo que más te gusta. Nosotros premiamos cada visita.</p>
+        <div class="welcome-kicker">MARIANO ESTRADA · BARISTA</div>
+        <h1>Mucho más<br>que café.</h1>
+        <p>Disfruta cada taza y haz que cada visita cuente.</p>
         <button class="welcome-enter" type="button" id="welcomeEnter"><span>Comenzar</span><span aria-hidden="true">→</span></button>
       </div>
     </div>
@@ -1288,17 +1288,17 @@
 
 
   <!-- EXPERIENCIAS: visible sin iniciar sesión -->
-  <section id="experiencesPage" aria-label="Experiencias con Mariano">
+  <section id="experiencesPage" aria-label="Eventos con Mariano">
     <div class="exp-hero">
       <div class="exp-kicker">MARIANO ESTRADA · BARISTA</div>
       <div>
-        <div class="exp-kicker">EXPERIENCIAS</div>
+        <div class="exp-kicker">EVENTOS</div>
         <h1>El café es solo<br>el comienzo.</h1>
         <p>Momentos que se disfrutan. Experiencias que se recuerdan. Llevamos el café de especialidad a tu próximo gran momento.</p>
-        <button type="button" class="exp-cta" id="expGoForm">Diseña tu experiencia &nbsp; →</button>
+        <button type="button" class="exp-cta" id="expGoForm">Cotiza tu evento &nbsp; →</button>
       </div>
     </div>
-    <h2 class="exp-heading">Una experiencia a tu medida.</h2>
+    <h2 class="exp-heading">Un evento a tu medida.</h2>
     <p class="exp-intro">Desde celebraciones hasta talleres y activaciones, Mariano lleva su pasión por el café a donde la necesites.</p>
     <div class="exp-service"><div class="exp-service-icon">☕</div><div><h3>Coffee Bar para eventos</h3><p>Una barra de café de especialidad para bodas, eventos corporativos, celebraciones y reuniones privadas.</p></div></div>
     <div class="exp-service"><div class="exp-service-icon">✦</div><div><h3>Catas y degustaciones</h3><p>Descubre aromas, sabores y nuevas formas de disfrutar el café con una experiencia guiada.</p></div></div>
@@ -1311,7 +1311,7 @@
       <form id="experienceForm">
         <div class="exp-field"><label for="expName">Tu nombre *</label><input id="expName" name="nombre" placeholder="¿Cómo te llamas?" required maxlength="100"></div>
         <div class="exp-field"><label for="expPhone">Tu WhatsApp o teléfono *</label><input id="expPhone" name="telefono" type="tel" placeholder="Tu número de contacto" required maxlength="25"></div>
-        <div class="exp-field"><label for="expService">¿Qué experiencia buscas? *</label><select id="expService" name="servicio" required><option value="" disabled selected>Selecciona una experiencia</option><option>Coffee Bar para eventos</option><option>Catas y degustaciones</option><option>Talleres y capacitaciones</option><option>Experiencia personalizada</option></select></div>
+        <div class="exp-field"><label for="expService">¿Qué servicio buscas? *</label><select id="expService" name="servicio" required><option value="" disabled selected>Selecciona un servicio</option><option>Coffee Bar para eventos</option><option>Catas y degustaciones</option><option>Talleres y capacitaciones</option><option>Experiencia personalizada</option></select></div>
         <div class="exp-two"><div class="exp-field"><label for="expDate">Fecha tentativa</label><input id="expDate" name="fecha" type="date"></div><div class="exp-field"><label for="expGuests">Invitados</label><input id="expGuests" name="invitados" type="number" min="1" max="100000" placeholder="Ej. 50"></div></div>
         <div class="exp-field"><label for="expCity">Ciudad o ubicación *</label><input id="expCity" name="ciudad" placeholder="¿Dónde sería?" required maxlength="150"></div>
         <div class="exp-field"><label for="expDetails">Cuéntanos tu idea</label><textarea id="expDetails" name="detalles" placeholder="Tipo de evento, horario, qué te gustaría incluir..." maxlength="1500"></textarea></div>
@@ -1457,7 +1457,7 @@
     </a>
 
 
-    <a href="#experiencias" class="nav-item" id="experiencesNav"><span class="icon">✧</span>Experiencias</a>
+    <a href="#experiencias" class="nav-item" id="experiencesNav"><span class="icon">✧</span>Eventos</a>
 
     <a
       href="#"
@@ -3281,10 +3281,10 @@
       const date = v('expDate');
       const readableDate = date ? date.split('-').reverse().join('/') : 'Por definir';
       const msg = [
-        '¡Hola, Mariano! ☕ Me gustaría cotizar una experiencia.',
+        '¡Hola, Mariano! ☕ Me gustaría cotizar un evento o servicio.',
         '', '👤 Nombre: ' + v('expName'),
         '📱 Contacto: ' + v('expPhone'),
-        '✨ Experiencia: ' + v('expService'),
+        '✨ Servicio: ' + v('expService'),
         '📅 Fecha: ' + readableDate,
         '👥 Invitados: ' + (v('expGuests') || 'Por definir'),
         '📍 Ubicación: ' + v('expCity'),
@@ -3296,7 +3296,7 @@
       link.href = url; link.target = '_blank'; link.rel = 'noopener noreferrer';
       document.body.appendChild(link); link.click(); link.remove();
     });
-    if (location.hash === '#experiencias') showExperiences();
+    if (location.hash === '#experiencias' || location.hash === '#eventos') showExperiences();
   })();
 
   /* Bienvenida en cada carga; no altera la sesión. */

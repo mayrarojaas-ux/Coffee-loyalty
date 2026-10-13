@@ -929,6 +929,9 @@
     .exp-form-card .exp-submit { background:#33251c; border:0; color:white; width:100%; border-radius:15px; padding:16px; font-size:14px; font-weight:700; cursor:pointer; }
     .exp-note { font-size:11px !important; margin:12px 0 0 !important; text-align:center; }
     .exp-cta { border:0; background:#f2e4d4; color:#33251c; border-radius:14px; padding:14px 20px; font-size:14px; font-weight:700; cursor:pointer; width:100%; margin-top:20px; }
+    .auth-switch { display:grid; grid-template-columns:1fr 1fr; gap:5px; padding:5px; background:#eae0d5; border-radius:14px; margin-bottom:20px; }
+    .auth-switch button { border:0; border-radius:10px; padding:12px 6px; background:transparent; color:#665448; font-weight:650; cursor:pointer; }
+    .auth-switch .auth-switch-active { background:white; color:#33251c; box-shadow:0 2px 8px rgba(0,0,0,.06); }
   </style>
 </head>
 
@@ -1348,6 +1351,17 @@
         tu cuenta.
       </p>
 
+      <div class="auth-switch" role="group" aria-label="Acceso a tu cuenta">
+        <button type="button" id="authLoginTab" class="auth-switch-active">Iniciar sesión</button>
+        <button type="button" id="authSignupTab">Crear cuenta</button>
+      </div>
+      <form id="signupForm" style="display:none">
+        <div class="form-group"><label for="signupName">Nombre completo</label><input id="signupName" autocomplete="name" maxlength="100" required placeholder="Tu nombre"></div>
+        <div class="form-group"><label for="signupEmail">Correo electrónico</label><input id="signupEmail" type="email" autocomplete="email" required placeholder="tu@correo.com"></div>
+        <div class="form-group"><label for="signupPassword">Contraseña (mínimo 6 caracteres)</label><input id="signupPassword" type="password" autocomplete="new-password" minlength="6" required placeholder="Crea una contraseña"></div>
+        <button class="button" id="submitSignup" type="submit">Crear mi cuenta</button>
+        <p class="login-message" id="signupMessage" role="status"></p>
+      </form>
       <form id="loginForm">
 
         <div class="form-group">
@@ -2502,6 +2516,56 @@
     }
   );
 
+
+  /* Registro de clientes: no altera la sesión de cuentas existentes. */
+  const signupForm = document.getElementById("signupForm");
+  const signupMessage = document.getElementById("signupMessage");
+  const submitSignup = document.getElementById("submitSignup");
+  const authLoginTab = document.getElementById("authLoginTab");
+  const authSignupTab = document.getElementById("authSignupTab");
+  function setAuthMode(mode) {
+    const creating = mode === "signup";
+    document.querySelector(".login-box h2").textContent = creating ? "Únete al café ☕" : "Bienvenido de vuelta ☕";
+    document.querySelector(".login-box > p").textContent = creating ? "Crea tu cuenta para empezar a sumar visitas y disfrutar recompensas." : "Inicia sesión para consultar tu cuenta.";
+    signupForm.style.display = creating ? "block" : "none";
+    loginForm.style.display = creating ? "none" : "block";
+    authSignupTab.classList.toggle("auth-switch-active", creating);
+    authLoginTab.classList.toggle("auth-switch-active", !creating);
+    signupMessage.textContent = "";
+    loginMessage.textContent = "";
+  }
+  authLoginTab.addEventListener("click", () => setAuthMode("login"));
+  authSignupTab.addEventListener("click", () => setAuthMode("signup"));
+  signupForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const full_name = document.getElementById("signupName").value.trim();
+    const email = document.getElementById("signupEmail").value.trim();
+    const password = document.getElementById("signupPassword").value;
+    if (!full_name || !email || password.length < 6) return;
+    submitSignup.disabled = true;
+    submitSignup.textContent = "Creando cuenta...";
+    signupMessage.style.color = "var(--danger)";
+    signupMessage.textContent = "";
+    try {
+      const {data, error} = await supabaseClient.auth.signUp({
+        email, password, options: {data: {full_name}}
+      });
+      if (error) throw error;
+      if (data.session && data.user) {
+        loginModal.classList.remove("show");
+        signupForm.reset();
+        await applyUserRole(data.user);
+      } else {
+        signupMessage.style.color = "var(--success)";
+        signupMessage.textContent = "¡Cuenta creada! Revisa tu correo para confirmar tu registro. Después podrás iniciar sesión.";
+      }
+    } catch (error) {
+      signupMessage.textContent = error.message || "No pudimos crear tu cuenta. Intenta nuevamente.";
+    } finally {
+      submitSignup.disabled = false;
+      submitSignup.textContent = "Crear mi cuenta";
+    }
+  });
 
   loginForm.addEventListener(
     "submit",

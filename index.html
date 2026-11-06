@@ -932,6 +932,149 @@
     .auth-switch { display:grid; grid-template-columns:1fr 1fr; gap:5px; padding:5px; background:#eae0d5; border-radius:14px; margin-bottom:20px; }
     .auth-switch button { border:0; border-radius:10px; padding:12px 6px; background:transparent; color:#665448; font-weight:650; cursor:pointer; }
     .auth-switch .auth-switch-active { background:white; color:#33251c; box-shadow:0 2px 8px rgba(0,0,0,.06); }
+  
+    /* EDICIÓN NAVIDEÑA 2026 · Solo diseño, sin modificar la lógica */
+    :root {
+      --xmas-green: #173f34;
+      --xmas-deep: #12342c;
+      --xmas-gold: #b68c4e;
+      --xmas-red: #a43f3b;
+      --xmas-cream: #fbf5e9;
+    }
+
+    body, .app { background: #f6f1e9; }
+    .hero { border-bottom: 3px solid rgba(182,140,78,.58); }
+    .brand-icon { border-color: rgba(224,194,137,.8); }
+
+    /* Portada: la fotografía de Mariano se conserva sin adornos superpuestos */
+    .welcome-brand { color: #fff9ed; }
+    .welcome-kicker {
+      color: #f0d4a0;
+      font-weight: 700;
+      letter-spacing: 2.4px;
+    }
+    .christmas-edition {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      align-self: flex-start;
+      padding: 9px 14px;
+      margin: 0 0 18px;
+      border: 1px solid rgba(236,204,148,.72);
+      border-radius: 100px;
+      background: rgba(24,34,27,.46);
+      backdrop-filter: blur(8px);
+      color: #f5dcae;
+      font-size: 10px;
+      font-weight: 750;
+      letter-spacing: 2.1px;
+      text-transform: uppercase;
+    }
+    .christmas-edition::before,
+    .christmas-edition::after { content: "✦"; font-size: 11px; color: #e8c88b; }
+    .welcome-enter { background: #f5e8d1; color: #173f34; }
+    .welcome-enter:hover { background: #fff2db; }
+
+    /* Tarjeta de progreso con detalle botánico discreto */
+    #progressSection {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(145deg,#fffdf7 0%,#fbf4e8 100%);
+      border: 1px solid rgba(184,149,95,.22);
+    }
+    #progressSection::before {
+      content: "";
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      width: 110px;
+      height: 75px;
+      background: url("ramita-navidad-mariano.svg") top right / contain no-repeat;
+      pointer-events: none;
+      z-index: 0;
+    }
+    #progressSection::after {
+      content: "✦ ✧";
+      position: absolute;
+      top: 75px;
+      right: 68px;
+      color: #b68c4e;
+      font-size: 12px;
+      letter-spacing: 6px;
+      pointer-events: none;
+    }
+    #progressSection > * { position: relative; z-index: 1; }
+    #progressSection .remaining { padding-top: 10px; }
+    #progressSection .eyebrow { color: #84643d; }
+    #progressSection .progress-number { color: var(--xmas-deep); }
+    #progressSection .remaining strong { color: var(--xmas-green); }
+    .loyalty-track { background: #e9e4d5; }
+    .loyalty-track-fill {
+      background: linear-gradient(90deg,#234e3c,#5e8063,#b69a60);
+    }
+    .loyalty-track-caption { color: #806e56; }
+
+    /* Próxima recompensa: crema, verde bosque y oro */
+    #nextRewardSection.premium-reward {
+      border: 1px solid rgba(183,147,89,.38);
+      background: linear-gradient(120deg,#f6ecd9 0%,#fffaf0 65%,#f4e8d3 100%);
+      box-shadow: 0 12px 32px rgba(44,55,37,.065);
+    }
+    #nextRewardSection.premium-reward::after {
+      content: "✧";
+      position: absolute;
+      right: 13px;
+      top: 8px;
+      font-size: 18px;
+      color: #b68c4e;
+      pointer-events: none;
+    }
+    #nextRewardSection .eyebrow { color: #947043; }
+    #nextRewardSection h3 { color: var(--xmas-deep); }
+    #nextRewardSection .premium-reward-arrow {
+      background: #e7e9db;
+      color: var(--xmas-green);
+    }
+
+    /* Perfil: verde oscuro con botón crema */
+    .account-card {
+      background: linear-gradient(135deg,#204d3e,#12342c);
+      border: 1px solid rgba(219,185,122,.35);
+      color: #fff9ef;
+    }
+    .account-card .eyebrow { color: #e4c88d; }
+    .account-card h3 { color: #fffaf1; }
+    .account-card p { color: #e6e5d8; }
+    .account-card .button {
+      background: #f5e9d3;
+      color: #173f34;
+    }
+    .account-card .button-secondary {
+      border-color: rgba(246,233,211,.45);
+      color: #fff4df;
+    }
+
+    /* Menú inferior: mismo orden y funcionalidad */
+    .nav {
+      background: rgba(252,248,239,.97);
+      border-top: 1px solid rgba(182,140,78,.30);
+    }
+    .nav-item { color: #7d7868; }
+    .nav-item.active { color: var(--xmas-green); }
+    .nav-item.active .icon { color: var(--xmas-gold); }
+
+    /* Detalles sutiles en QR, premios y eventos */
+    .qr-box { background: #f7f0e2; }
+    .history-check { background: var(--xmas-green); }
+    .prize-item { background: #f8f2e7; }
+    .exp-cta, .exp-form-card .exp-submit { background: var(--xmas-green); color: white; }
+    .exp-service-icon { background: #e9eee3; }
+    .auth-switch .auth-switch-active { color: var(--xmas-green); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .loyalty-track-fill { transition: none; }
+    }
+
   </style>
 </head>
 
@@ -942,6 +1085,7 @@
     <div class="welcome-inner">
       <div class="welcome-brand">Mariano Estrada<small>Barista · Café</small></div>
       <div class="welcome-bottom">
+        <div class="christmas-edition">Edición navideña</div>
         <div class="welcome-kicker">MARIANO ESTRADA · BARISTA</div>
         <h1>Mucho más<br>que café.</h1>
         <p>Disfruta cada taza y haz que cada visita cuente.</p>

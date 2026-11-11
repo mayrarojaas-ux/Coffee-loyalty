@@ -794,7 +794,8 @@
     body.customer-tabs[data-tab="inicio"] #progressSection,
     body.customer-tabs[data-tab="inicio"] #nextRewardSection,
     body.customer-tabs[data-tab="inicio"] #todayStatus,
-    body.customer-tabs[data-tab="inicio"] #historySection { display: block !important; }
+    body.customer-tabs[data-tab="inicio"] #historySection,
+    body.customer-tabs[data-tab="inicio"] #feedbackSection:not([hidden]) { display: block !important; }
     body.customer-tabs[data-tab="inicio"] #nextRewardSection { display: flex !important; }
     body.customer-tabs[data-tab="inicio"] #todayStatus[style*="display: none"] { display: none !important; }
     body.customer-tabs[data-tab="qr"] #qrSection { display: block !important; }
@@ -1075,6 +1076,27 @@
       .loyalty-track-fill { transition: none; }
     }
 
+
+    /* OPINIONES DESPUÉS DE CADA VISITA */
+    #feedbackSection[hidden] { display:none !important; }
+    .feedback-card { border:1px solid rgba(182,140,78,.35); background:linear-gradient(145deg,#fffdf8,#f8f0e2); }
+    .feedback-card h3 { margin:4px 0 8px; font-size:21px; color:#173f34; line-height:1.25; }
+    .feedback-card p { font-size:13px; color:#7f6959; line-height:1.5; }
+    .feedback-stars { display:flex; justify-content:center; gap:6px; margin:16px 0; }
+    .feedback-star { border:0; background:transparent; color:#c9bdab; font-size:36px; padding:4px; cursor:pointer; line-height:1; }
+    .feedback-star.selected { color:#b68c4e; }
+    .feedback-card textarea { width:100%; min-height:94px; resize:vertical; border:1px solid #ded2c4; border-radius:15px; background:white; padding:13px; font:inherit; font-size:14px; color:#33251c; }
+    .feedback-card label { display:block; font-size:12px; font-weight:700; margin:12px 0 7px; }
+    .feedback-note { font-size:11px!important; margin:11px 0!important; }
+    .feedback-message { font-size:12px; min-height:17px; margin-top:9px; color:#8b3d32; }
+    .feedback-admin-item { padding:15px; border:1px solid #e4d9c7; background:#fffdf9; border-radius:16px; margin-top:12px; }
+    .feedback-admin-head { display:flex; justify-content:space-between; align-items:start; gap:10px; }
+    .feedback-admin-head strong { font-size:14px; color:#173f34; }
+    .feedback-admin-head small { display:block; margin-top:5px; color:#7f6959; }
+    .feedback-admin-stars { color:#b68c4e; white-space:nowrap; letter-spacing:1px; }
+    .feedback-admin-comment { overflow-wrap:anywhere; white-space:pre-wrap; }
+    .feedback-admin-item select { width:100%; margin-top:9px; padding:10px; border:1px solid #ded2c4; border-radius:10px; background:white; font:inherit; }
+
   </style>
 </head>
 
@@ -1238,6 +1260,15 @@
     </section>
 
 
+
+    <section class="card" id="feedbackAdminSection" style="display:none">
+      <div class="eyebrow">SEGUIMIENTO DE EXPERIENCIAS</div>
+      <h3 style="margin:0 0 7px;color:#173f34">Opiniones de clientes</h3>
+      <p class="history-intro">Consulta las calificaciones e identifica a quién necesitas dar seguimiento.</p>
+      <button type="button" class="button-secondary" id="feedbackRefresh">Actualizar opiniones</button>
+      <div id="feedbackAdminList" aria-live="polite"><p class="history-intro">Cargando opiniones...</p></div>
+    </section>
+
     <!-- PROGRESO -->
 
     <section
@@ -1318,6 +1349,27 @@
         <p id="rewardDescription">Disponible al completar 10 visitas.</p>
       </div>
       <div class="premium-reward-arrow" aria-hidden="true">↗</div>
+    </section>
+
+
+    <!-- Encuesta: se muestra solo al cliente después de una visita registrada -->
+    <section class="card feedback-card" id="feedbackSection" hidden aria-label="Califica tu experiencia">
+      <div class="eyebrow">TU OPINIÓN NOS IMPORTA ✦</div>
+      <h3>¿Cómo fue tu experiencia el día de hoy?</h3>
+      <p>¡Tu visita ya quedó registrada! Cuéntanos cómo te fue.</p>
+      <div class="feedback-stars" id="feedbackStars" role="group" aria-label="Calificación de 1 a 5 estrellas">
+        <button type="button" class="feedback-star" data-rating="1" aria-label="1 estrella">★</button>
+        <button type="button" class="feedback-star" data-rating="2" aria-label="2 estrellas">★</button>
+        <button type="button" class="feedback-star" data-rating="3" aria-label="3 estrellas">★</button>
+        <button type="button" class="feedback-star" data-rating="4" aria-label="4 estrellas">★</button>
+        <button type="button" class="feedback-star" data-rating="5" aria-label="5 estrellas">★</button>
+      </div>
+      <label for="feedbackComment">Cuéntanos un poquito más (opcional)</label>
+      <textarea id="feedbackComment" maxlength="1500" placeholder="¿Qué te gustó? ¿Qué podemos mejorar?"></textarea>
+      <p class="feedback-note">Tu nombre y opinión serán visibles para Mariano para que pueda dar seguimiento. Tu respuesta no afecta tus visitas ni recompensas.</p>
+      <button type="button" class="button" id="feedbackSubmit" disabled>Enviar mi opinión</button>
+      <button type="button" class="button-secondary" id="feedbackSkip">Ahora no, gracias</button>
+      <div class="feedback-message" id="feedbackMessage" role="status"></div>
     </section>
 
     <!-- PREMIOS DEL CLIENTE -->
@@ -1970,6 +2022,7 @@
         user
       );
       await loadEarnedRewards(user);
+      await checkFeedbackForLatestVisit(user);
 
     }
 
@@ -1986,6 +2039,7 @@
 
     baristaSection.style.display =
       "none";
+    document.getElementById("feedbackAdminSection").style.display = "none";
 
 
     progressSection.style.display =
@@ -2067,6 +2121,13 @@
 
     baristaSection.style.display =
       "block";
+    document.getElementById("feedbackSection").hidden = true;
+    if (profile.role === "admin") {
+      document.getElementById("feedbackAdminSection").style.display = "block";
+      loadAdminFeedback();
+    } else {
+      document.getElementById("feedbackAdminSection").style.display = "none";
+    }
 
 
     heroTitle.innerHTML =
@@ -2585,6 +2646,160 @@
   }
 
 
+
+  /* =========================
+     ENCUESTA POST-VISITA
+     Consulta visitas recientes al volver a la app; no requiere que el cliente
+     tenga la pantalla abierta al momento del escaneo.
+  ========================== */
+  let feedbackVisitId = null;
+  let feedbackRating = 0;
+  let feedbackCheckBusy = false;
+  let feedbackLastCheck = 0;
+  const feedbackSection = document.getElementById("feedbackSection");
+  const feedbackMessage = document.getElementById("feedbackMessage");
+  const feedbackSubmit = document.getElementById("feedbackSubmit");
+  const feedbackStars = Array.from(document.querySelectorAll(".feedback-star"));
+
+  function setFeedbackRating(value) {
+    feedbackRating = value;
+    feedbackSubmit.disabled = !value;
+    feedbackStars.forEach(button => {
+      const active = Number(button.dataset.rating) <= value;
+      button.classList.toggle("selected", active);
+      button.setAttribute("aria-pressed", String(Number(button.dataset.rating) === value));
+    });
+  }
+  feedbackStars.forEach(button => button.addEventListener("click", () => setFeedbackRating(Number(button.dataset.rating))));
+
+  async function checkFeedbackForLatestVisit(user) {
+    if (!user || currentProfile?.role !== "customer" || feedbackCheckBusy) return;
+    feedbackCheckBusy = true;
+    feedbackLastCheck = Date.now();
+    try {
+      const {data: visits, error: visitError} = await supabaseClient.from("visits")
+        .select("id,created_at").eq("customer_id",user.id)
+        .order("created_at",{ascending:false}).limit(1);
+      if (visitError) throw visitError;
+      const visit = visits?.[0];
+      if (!visit || getMexicoDateString(visit.created_at) !== getMexicoDateString(new Date())) {
+        feedbackSection.hidden = true; feedbackVisitId = null; return;
+      }
+      // Al omitir la encuesta, no vuelve a mostrarse para esta visita.
+      const skippedKey = "mariano-feedback-skipped-" + user.id + "-" + visit.id;
+      if (localStorage.getItem(skippedKey) === "1") {
+        feedbackSection.hidden = true; feedbackVisitId = null; return;
+      }
+      const {data: prior, error: priorError} = await supabaseClient.from("visit_feedback")
+        .select("id").eq("visit_id",visit.id).eq("customer_id",user.id).limit(1);
+      if (priorError) throw priorError;
+      if (prior?.length) { feedbackSection.hidden = true; feedbackVisitId = null; return; }
+      if (feedbackVisitId !== visit.id) {
+        setFeedbackRating(0);
+        document.getElementById("feedbackComment").value = "";
+        feedbackMessage.textContent = "";
+      }
+      feedbackVisitId = visit.id;
+      feedbackSection.hidden = false;
+      if (document.body.classList.contains("customer-tabs")) {
+        activateCustomerTab("inicio");
+      }
+    } catch (error) {
+      console.error("No se pudo consultar la encuesta:",error);
+      feedbackSection.hidden = true;
+    } finally { feedbackCheckBusy = false; }
+  }
+
+  feedbackSubmit.addEventListener("click", async () => {
+    if (!feedbackVisitId || !feedbackRating || currentProfile?.role !== "customer") return;
+    const visitId = feedbackVisitId;
+    feedbackSubmit.disabled = true;
+    feedbackSubmit.textContent = "Enviando...";
+    feedbackMessage.textContent = "";
+    const {error} = await supabaseClient.rpc("submit_visit_feedback", {
+      p_visit_id: visitId,
+      p_rating: feedbackRating,
+      p_comment: document.getElementById("feedbackComment").value.trim() || null
+    });
+    feedbackSubmit.textContent = "Enviar mi opinión";
+    if (error) {
+      console.error(error);
+      feedbackMessage.textContent = "No pudimos guardar tu opinión. Intenta nuevamente.";
+      feedbackSubmit.disabled = false;
+      return;
+    }
+    feedbackVisitId = null;
+    feedbackSection.hidden = true;
+    alert("¡Gracias por compartir tu experiencia! ☕🤎");
+  });
+  document.getElementById("feedbackSkip").addEventListener("click", async () => {
+    if (!feedbackVisitId) return;
+    const {data:{user}} = await supabaseClient.auth.getUser();
+    if (user) localStorage.setItem("mariano-feedback-skipped-"+user.id+"-"+feedbackVisitId,"1");
+    feedbackVisitId = null;
+    feedbackSection.hidden = true;
+  });
+
+  // Detecta nuevas visitas aunque el barista las registre en otro dispositivo.
+  async function refreshFeedbackIfNeeded() {
+    if (document.hidden || !currentProfile || currentProfile.role !== "customer") return;
+    if (Date.now() - feedbackLastCheck < 10000) return;
+    const {data:{user}} = await supabaseClient.auth.getUser();
+    if (!user) return;
+    await checkFeedbackForLatestVisit(user);
+  }
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) refreshFeedbackIfNeeded(); });
+  window.addEventListener("focus", refreshFeedbackIfNeeded);
+  setInterval(refreshFeedbackIfNeeded, 12000);
+
+  /* Solo el administrador puede leer y actualizar opiniones de todos los clientes. */
+  async function loadAdminFeedback() {
+    if (currentProfile?.role !== "admin") return;
+    const list = document.getElementById("feedbackAdminList");
+    list.textContent = "Consultando opiniones...";
+    const {data, error} = await supabaseClient.rpc("list_visit_feedback");
+    if (error) {
+      console.error("Error consultando opiniones:",error);
+      list.textContent = "No pudimos cargar las opiniones. Revisa que el SQL esté instalado.";
+      return;
+    }
+    list.replaceChildren();
+    if (!data?.length) { list.textContent = "Todavía no hay opiniones registradas."; return; }
+    for (const entry of data) {
+      const item = document.createElement("article"); item.className = "feedback-admin-item";
+      const head = document.createElement("div"); head.className = "feedback-admin-head";
+      const identity = document.createElement("div");
+      const name = document.createElement("strong"); name.textContent = entry.customer_name || "Cliente";
+      const date = document.createElement("small");
+      date.textContent = new Intl.DateTimeFormat("es-MX",{timeZone:"America/Mexico_City",dateStyle:"medium",timeStyle:"short"}).format(new Date(entry.created_at));
+      identity.append(name,date);
+      const stars = document.createElement("span"); stars.className = "feedback-admin-stars";
+      stars.textContent = "★".repeat(entry.rating) + "☆".repeat(5-entry.rating);
+      head.append(identity,stars); item.appendChild(head);
+      if (entry.comment) {
+        const comment = document.createElement("p"); comment.className = "feedback-admin-comment";
+        comment.textContent = entry.comment; item.appendChild(comment);
+      }
+      const label = document.createElement("label"); label.textContent = "Estado de seguimiento";
+      label.style.cssText = "display:block;font-size:12px;margin-top:12px;font-weight:700";
+      const select = document.createElement("select");
+      for (const [value,text] of [["pendiente","Pendiente"],["en_proceso","En proceso"],["atendido","Atendido"]]) {
+        const option = document.createElement("option"); option.value=value; option.textContent=text; select.appendChild(option);
+      }
+      select.value = entry.status;
+      select.addEventListener("change",async () => {
+        const previous = entry.status; select.disabled = true;
+        const {error:updateError} = await supabaseClient.from("visit_feedback")
+          .update({status:select.value}).eq("id",entry.id);
+        select.disabled = false;
+        if (updateError) { console.error(updateError); alert("No se pudo actualizar el seguimiento."); select.value = previous; }
+        else entry.status = select.value;
+      });
+      item.append(label,select); list.appendChild(item);
+    }
+  }
+  document.getElementById("feedbackRefresh").addEventListener("click",loadAdminFeedback);
+
   /* =========================
      LOGIN
   ========================== */
@@ -2818,6 +3033,9 @@
 
       currentProfile =
         null;
+      feedbackVisitId = null;
+      document.getElementById("feedbackSection").hidden = true;
+      document.getElementById("feedbackAdminSection").style.display = "none";
       document.body.classList.remove("customer-tabs");
 
 

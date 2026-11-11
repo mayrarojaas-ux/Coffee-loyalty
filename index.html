@@ -1097,6 +1097,22 @@
     .feedback-admin-comment { overflow-wrap:anywhere; white-space:pre-wrap; }
     .feedback-admin-item select { width:100%; margin-top:9px; padding:10px; border:1px solid #ded2c4; border-radius:10px; background:white; font:inherit; }
 
+
+    /* PANEL ADMINISTRATIVO · MIS CLIENTES */
+    .clients-summary{font-size:13px;color:var(--coffee-light);margin:8px 0 15px}
+    .clients-search{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:13px;background:#fffdf9;font:inherit;margin:10px 0 12px}
+    .client-entry{border:1px solid #e8dccb;border-radius:17px;padding:15px;margin:11px 0;background:#fffdf8}
+    .client-entry h4{margin:0 0 5px;font-size:15px;color:#173f34}
+    .client-entry small{color:var(--coffee-light);font-size:12px}
+    .client-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:13px 0}
+    .client-stat{background:#f4ede2;border-radius:11px;padding:10px 6px;text-align:center}
+    .client-stat strong{display:block;font-size:17px;color:#173f34}
+    .client-stat span{font-size:10px;color:#6f5c4e}
+    .client-detail{font-size:12px;line-height:1.6;color:#6f5c4e}
+    .client-entry details{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+    .client-entry summary{cursor:pointer;font-weight:700;font-size:12px;color:#173f34}
+    .client-history{padding:8px 0;font-size:12px;color:#6f5c4e}
+
   </style>
 </head>
 
@@ -1260,6 +1276,17 @@
     </section>
 
 
+
+
+    <section class="card" id="clientsAdminSection" style="display:none">
+      <div class="eyebrow">ADMINISTRACIÓN DE CLIENTES</div>
+      <h3 style="margin:0 0 7px;color:#173f34">Mis clientes ☕</h3>
+      <p class="history-intro">Conoce a tus clientes, sus visitas, recompensas y últimas opiniones.</p>
+      <input id="clientsSearch" class="clients-search" type="search" placeholder="Buscar cliente por nombre" aria-label="Buscar clientes por nombre">
+      <button type="button" class="button-secondary" id="clientsRefresh">Actualizar clientes</button>
+      <div class="clients-summary" id="clientsSummary"></div>
+      <div id="clientsAdminList" aria-live="polite">Cargando clientes...</div>
+    </section>
 
     <section class="card" id="feedbackAdminSection" style="display:none">
       <div class="eyebrow">SEGUIMIENTO DE EXPERIENCIAS</div>
@@ -2122,7 +2149,9 @@
     baristaSection.style.display =
       "block";
     document.getElementById("feedbackSection").hidden = true;
+    document.getElementById("clientsAdminSection").style.display = profile.role === "admin" ? "block" : "none";
     if (profile.role === "admin") {
+      loadAdminClients();
       document.getElementById("feedbackAdminSection").style.display = "block";
       loadAdminFeedback();
     } else {
@@ -2800,6 +2829,69 @@
   }
   document.getElementById("feedbackRefresh").addEventListener("click",loadAdminFeedback);
 
+
+  /* MIS CLIENTES: consulta segura, solo para administradores. */
+  let adminClients = [];
+  function formatClientDate(value) {
+    if (!value) return "Sin registros";
+    return new Intl.DateTimeFormat("es-MX", {timeZone:"America/Mexico_City",dateStyle:"medium"}).format(new Date(value));
+  }
+  async function loadAdminClients() {
+    if (currentProfile?.role !== "admin") return;
+    const list = document.getElementById("clientsAdminList");
+    list.textContent = "Consultando clientes...";
+    const {data,error} = await supabaseClient.rpc("list_loyalty_customers");
+    if (error) {
+      console.error("No se pudieron consultar los clientes",error);
+      list.textContent = "No pudimos consultar los clientes. Verifica que ejecutaste el SQL de Mis clientes.";
+      return;
+    }
+    adminClients = data || [];
+    document.getElementById("clientsSummary").textContent = `${adminClients.length} cliente(s) registrado(s)`;
+    renderAdminClients();
+  }
+  function renderAdminClients() {
+    const list = document.getElementById("clientsAdminList");
+    const search = document.getElementById("clientsSearch").value.trim().toLocaleLowerCase("es-MX");
+    const clients = adminClients.filter(c => (c.customer_name || "").toLocaleLowerCase("es-MX").includes(search));
+    list.replaceChildren();
+    if (!clients.length) {list.textContent = search ? "No encontramos clientes con ese nombre." : "Todavía no hay clientes registrados.";return;}
+    for (const c of clients) {
+      const card = document.createElement("article"); card.className="client-entry";
+      const name = document.createElement("h4"); name.textContent=c.customer_name || "Cliente sin nombre";
+      const last = document.createElement("small"); last.textContent="Última visita: " + formatClientDate(c.last_visit_at);
+      card.append(name,last);
+      const stats = document.createElement("div");stats.className="client-stats";
+      for (const [value,label] of [[c.total_visits,"Visitas"],[c.rewards_available,"Premios disponibles"],[c.rewards_redeemed,"Canjeados"]]) {
+        const cell=document.createElement("div");cell.className="client-stat";
+        const number=document.createElement("strong");number.textContent=String(value ?? 0);
+        const caption=document.createElement("span");caption.textContent=label;
+        cell.append(number,caption);stats.appendChild(cell);
+      }
+      card.appendChild(stats);
+      const detail=document.createElement("div");detail.className="client-detail";
+      detail.textContent="Última calificación: " + (c.last_rating ? "★".repeat(c.last_rating)+"☆".repeat(5-c.last_rating) : "Sin opiniones todavía");
+      card.appendChild(detail);
+      if(c.last_comment){const comment=document.createElement("p");comment.className="client-detail";comment.textContent="“"+c.last_comment+"”";card.appendChild(comment);}
+      const disclosure=document.createElement("details");
+      const summary=document.createElement("summary");summary.textContent="Ver historial de visitas";
+      const history=document.createElement("div");history.className="client-history";history.textContent="Abre para consultar sus últimas visitas.";
+      disclosure.append(summary,history);
+      disclosure.addEventListener("toggle",async()=>{
+        if(!disclosure.open || disclosure.dataset.loaded) return;
+        history.textContent="Cargando historial...";
+        const {data,error}=await supabaseClient.rpc("list_customer_visit_history",{p_customer_id:c.customer_id});
+        if(error){console.error(error);history.textContent="No se pudo consultar el historial.";return;}
+        disclosure.dataset.loaded="1";history.replaceChildren();
+        if(!data?.length){history.textContent="Sin visitas registradas.";return;}
+        for(const visit of data){const line=document.createElement("div");line.textContent="✓ "+new Intl.DateTimeFormat("es-MX",{timeZone:"America/Mexico_City",dateStyle:"medium",timeStyle:"short"}).format(new Date(visit.created_at));line.style.padding="5px 0";history.appendChild(line);}
+      });
+      card.appendChild(disclosure);list.appendChild(card);
+    }
+  }
+  document.getElementById("clientsRefresh").addEventListener("click",loadAdminClients);
+  document.getElementById("clientsSearch").addEventListener("input",renderAdminClients);
+
   /* =========================
      LOGIN
   ========================== */
@@ -3036,6 +3128,7 @@
       feedbackVisitId = null;
       document.getElementById("feedbackSection").hidden = true;
       document.getElementById("feedbackAdminSection").style.display = "none";
+      document.getElementById("clientsAdminSection").style.display = "none";
       document.body.classList.remove("customer-tabs");
 
 
